@@ -41,9 +41,7 @@
       <xs:selector xpath=".//odmc:relationIdentifier/*"/>
       <xs:field xpath="@idref"/>
     </xs:keyref>
-    
   </xs:element>
-  
 
   <xs:complexType name="odmcMainType">
     <xs:sequence>
@@ -62,7 +60,6 @@
         </xs:annotation>
       </xs:element>
     </xs:sequence>
-    <!-- Other things like version, dates, etc. -->
     <xs:attribute name="dateLastModified" type="xs:date">
       <xs:annotation>
         <xs:documentation>
@@ -144,7 +141,7 @@
           </xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="title" type="odmc:titleType"></xs:element>
+      <xs:element name="title" type="odmc:titleType" minOccurs="1" maxOccurs="unbounded"></xs:element>
       <xs:element name="duration" type="xs:duration"></xs:element>
       <xs:element name="place" type="odmc:placeType" minOccurs="0" maxOccurs="unbounded">
         <xs:annotation>
@@ -179,11 +176,11 @@
       </xs:documentation>
     </xs:annotation>
     <xs:sequence>
-      <xs:element name="name" type="xs:string"></xs:element>
-      <xs:element name="type" type="xs:string">
+      <xs:element name="name" type="xs:string" minOccurs="0" maxOccurs="unbounded"></xs:element>
+      <xs:element name="type" type="xs:string" minOccurs="0">
         <xs:annotation>
           <xs:documentation>
-            Describes the place function (e.g., recording studio, religious building).
+            Describes the place primary function (e.g., recording studio, religious building).
           </xs:documentation>
         </xs:annotation>
       </xs:element>
@@ -201,7 +198,7 @@
           </xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="name" type="odmc:titleType" minOccurs="0" maxOccurs="unbounded"></xs:element>
+      <xs:element name="name" type="odmc:titleType" minOccurs="1" maxOccurs="unbounded"></xs:element>
       <xs:element name="type" type="xs:string" minOccurs="0" maxOccurs="unbounded">
         <xs:annotation>
           <xs:documentation>
@@ -222,7 +219,7 @@
           </xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="title" type="odmc:titleType"></xs:element>
+      <xs:element name="title" type="odmc:titleType" minOccurs="1" maxOccurs="unbounded"></xs:element>
       <xs:element name="hasArtist" type="odmc:relationType" minOccurs="1" maxOccurs="unbounded">
         <xs:annotation>
           <xs:documentation>
@@ -250,7 +247,7 @@
 
   <xs:complexType name="releaseType">
     <xs:sequence>
-      <xs:element name="title" type="odmc:titleType"></xs:element>
+      <xs:element name="title" type="odmc:titleType" minOccurs="1" maxOccurs="unbounded"></xs:element>
       <xs:element name="catalogueNumber" type="xs:string">
         <xs:annotation>
           <xs:documentation>
@@ -290,7 +287,7 @@
       </xs:documentation>
     </xs:annotation>
     <xs:sequence>
-      <xs:element name="name" type="odmc:titleType"></xs:element>
+      <xs:element name="name" type="odmc:titleType" minOccurs="1" maxOccurs="unbounded"></xs:element>
       <xs:element name="type">
         <xs:simpleType>
           <xs:restriction base="xs:string">
@@ -362,14 +359,14 @@
       </xs:documentation>
     </xs:annotation>
     <xs:choice minOccurs="0" maxOccurs="unbounded">
-      <xs:element ref="dc:relation">
+      <xs:element ref="dc:relation" minOccurs="0" maxOccurs="unbounded">
         <xs:annotation>
           <xs:documentation>
             The relationType is built as a refinement of Dublin Core dc:relation. This choice accepts a title to identify the related item.
           </xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="relationIdentifier" type="odmc:relationIdentifierType">
+      <xs:element name="relationIdentifier" type="odmc:relationIdentifierType" minOccurs="0" maxOccurs="unbounded">
         <xs:annotation>
           <xs:documentation>
             This choice accepts one of the defined unique identifiers to identify the related item.
@@ -546,7 +543,7 @@
               </xs:documentation>
             </xs:annotation>
           </xs:element>
-          <xs:element name="audioFormat" type="odmc:audioFormatType">
+          <xs:element name="audioFormat" type="odmc:audioFormatType" minOccurs="0">
             <xs:annotation>
               <xs:documentation>
                 Provides detail on the audio format.
@@ -615,5 +612,6 @@
     </xs:sequence>
   </xs:complexType>
   
+
 
 </xs:schema>
