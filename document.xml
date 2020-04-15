@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<odmcMain
+  xmlns:dc="http://purl.org/dc/elements/1.1/"
+  xmlns="DSSC:odmc"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="DSSC:odmc odmc.xsd">
+
+  <odmcMetadata>
+
+
+    <artist>
+      <ISNI id="ISNI_1234567890123456"></ISNI>
+      <name>
+        <dc:title>William Wilson</dc:title>
+      </name>
+      <type>
+        Singer
+      </type>
+      <description>
+        <dc:description>Very good singer</dc:description>
+        <attributor>William Wilson</attributor>
+      </description>
+    </artist>
+
+    <work>
+      <ISWC id="ISWC_T-000.000.000-A"></ISWC>
+      <title lang="en">
+        <dc:title>Test Work</dc:title>
+      </title>
+      <hasArtist label="William Wilson" description="Singer"></hasArtist>
+      <hasPerformance label="Test Recording" description="Studio Version">
+        <relationIdentifier>
+          <ISRC idref="ISRC_AAAAA0000000"></ISRC>
+        </relationIdentifier>
+      </hasPerformance>
+    </work>
+
+    <work>
+      <ISWC id="ISWC_T-000.000.000-B"></ISWC>
+      <title note="Original name">
+        <dc:title>Test Work</dc:title>
+      </title>
+      <hasArtist label="William Wilson" description="Singer">
+        <relationIdentifier>
+          <ISNI idref="ISNI_1234567890123456"></ISNI>
+        </relationIdentifier>
+      </hasArtist>
+      <hasArtist label="Willy Wonka" description="Sound Engineer"></hasArtist>
+      <hasPerformance label="Test Recording" description="Live Version">
+        <relationIdentifier>
+          <ISRC idref="ISRC_AAAAA0000000"></ISRC>
+        </relationIdentifier>
+      </hasPerformance>
+      <hasRelatedWork label="Test Work" description="Studio Version">
+        <relationIdentifier>
+          <ISWC idref="ISWC_T-000.000.000-A"></ISWC>
+        </relationIdentifier>
+      </hasRelatedWork>
+    </work>
+
+
+    <recording>
+      <ISRC id="ISRC_AAAAA0000000"></ISRC>
+      <title>
+        <dc:title>Test Recording</dc:title>
+      </title>
+      <duration>
+        PT20M
+      </duration>
+      <hasArtist label="William Wilson" description="Singer">
+        <relationIdentifier>
+          <ISNI idref="ISNI_1234567890123456"></ISNI>
+        </relationIdentifier>
+      </hasArtist>
+      <hasArtist label="Willy Wonka" description="Produceer"></hasArtist>
+      <isPerformanceOf>
+        <relationIdentifier>
+          <ISWC idref="ISWC_T-000.000.000-A"></ISWC>
+        </relationIdentifier>
+      </isPerformanceOf>
+      <audioFile fileID="ID_000000">
+        <fileName>
+          <dc:title>Filename</dc:title>
+        </fileName>
+        <fileSize unit="mB">4</fileSize>
+        <locator>fileuri</locator>
+        <hash>
+          <hashValue>3423</hashValue>
+          <hashFunction>function</hashFunction>
+        </hash>
+        <bitRate unit="kbps">320</bitRate>
+        <audioFormat formatID="ciaone" formatVersion="ciaone" formatName="format">
+          <codec>codec</codec>
+          <compressedFlag>0</compressedFlag>
+          <losslessFlag>1</losslessFlag>
+        </audioFormat>
+      </audioFile>
+    </recording>
+
+
+    <release>
+      <title>
+        <dc:title>Test Release</dc:title>
+      </title>
+      <catalogueNumber>
+        123456789
+      </catalogueNumber>
+      <hasArtist label="Willy Wonka" description="Produceer"></hasArtist>
+      <label>
+        <name>
+          <dc:title>Test Label</dc:title>
+        </name>
+        <type>distributor</type>
+        <labelCode>AAA000AAA</labelCode>
+      </label>
+      <hasTrack runningOrderNumber="1" totalOrderNumber="1">
+        <relationIdentifier>
+          <ISRC idref="ISRC_AAAAA0000000"></ISRC>
+        </relationIdentifier>
+      </hasTrack>
+    </release>
+
+
+    
+  </odmcMetadata>
+  
+  
+</odmcMain>

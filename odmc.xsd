@@ -1,0 +1,282 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  targetNamespace="DSSC:odmc"
+  xmlns:dc="http://purl.org/dc/elements/1.1/"
+  xmlns:odmc="DSSC:odmc"
+  elementFormDefault="qualified">
+  <xs:import namespace="http://purl.org/dc/elements/1.1/" schemaLocation="https://www.dublincore.org/schemas/xmls/qdc/2008/02/11/dc.xsd"/>
+
+  <xs:annotation>
+    <xs:documentation>
+      Prototyped XML Schema for the Open Data Management and Cloud exam at UniTS. 
+    </xs:documentation>
+  </xs:annotation>
+
+  <xs:annotation>
+    <xs:documentation>
+      
+    </xs:documentation>
+  </xs:annotation>
+
+  
+  <xs:element name="odmcMain" type="odmc:odmcMainType">
+    
+    <xs:key name="relationId">
+      <xs:selector xpath="./odmc:odmcMetadata/odmc:recording/odmc:ISRC |
+                          ./odmc:odmcMetadata/odmc:artist/odmc:ISNI    |
+                          ./odmc:odmcMetadata/odmc:work/odmc:ISWC"
+                          />
+      <xs:field xpath="@id"/>
+    </xs:key>
+    <xs:keyref name="relationIdref" refer="odmc:relationId">
+      <xs:selector xpath=".//odmc:relationIdentifier/*"/>
+      <xs:field xpath="@idref"/>
+    </xs:keyref>
+    
+  </xs:element>
+  
+  <!-- Saved -->
+
+  <xs:complexType name="odmcMainType">
+    <xs:sequence>
+      <xs:element name="odmcMetadata" type="odmc:odmcMetadataType"></xs:element>
+      <!-- Other things like version, dates, etc. -->
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="odmcMetadataType">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element name="recording" type="odmc:recordingType" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="artist" type="odmc:artistType" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="work" type="odmc:workType" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="release" type="odmc:releaseType" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:choice>
+  </xs:complexType>
+
+  
+  
+  <!-- ENTITIES METADATA TYPES-->
+
+  <xs:complexType name="recordingType">
+    <xs:sequence>
+      <xs:element name="ISRC" type="odmc:ISRC_Id"></xs:element>
+      <xs:element name="title" type="odmc:titleType"></xs:element>
+      <xs:element name="duration" type="xs:duration"></xs:element>
+      <xs:element name="place" type="odmc:placeType" minOccurs="0" maxOccurs="unbounded"></xs:element>
+      <xs:element name="hasArtist" type="odmc:relationType" minOccurs="1" maxOccurs="unbounded"></xs:element>
+      <xs:element name="isPerformanceOf" type="odmc:relationType" minOccurs="1" maxOccurs="1"></xs:element>
+      <xs:element name="description" type="odmc:descriptionType" minOccurs="0" maxOccurs="unbounded"></xs:element>
+      <xs:element name="audioFile" type="odmc:audioFileType" minOccurs="1" maxOccurs="1"></xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="placeType">
+    <xs:sequence>
+      <xs:element name="name" type="xs:string"></xs:element>
+      <xs:element name="type" type="xs:string"></xs:element>
+      <xs:element name="address" type="xs:string"></xs:element>
+      <xs:element name="description" type="odmc:descriptionType" minOccurs="0" maxOccurs="unbounded"></xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="artistType">
+    <xs:sequence>
+      <xs:element name="ISNI" type="odmc:ISNI_Id"></xs:element>
+      <xs:element name="name" type="odmc:titleType" minOccurs="0" maxOccurs="unbounded"></xs:element>
+      <xs:element name="type" type="xs:string" minOccurs="0" maxOccurs="unbounded"></xs:element>
+      <xs:element name="description" type="odmc:descriptionType" minOccurs="0" maxOccurs="unbounded"></xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="workType">
+    <xs:sequence>
+      <xs:element name="ISWC" type="odmc:ISWC_Id"></xs:element>
+      <xs:element name="title" type="odmc:titleType"></xs:element>
+      <xs:element name="hasArtist" type="odmc:relationType" minOccurs="1" maxOccurs="unbounded"></xs:element>
+      <xs:element name="hasPerformance" type="odmc:relationType" minOccurs="1" maxOccurs="unbounded"></xs:element>
+      <xs:element name="hasRelatedWork" type="odmc:relationType" minOccurs="0" maxOccurs="unbounded"></xs:element>
+      <xs:element name="description" type="odmc:descriptionType" minOccurs="0" maxOccurs="unbounded"></xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="releaseType">
+    <xs:sequence>
+      <xs:element name="title" type="odmc:titleType"></xs:element>
+      <xs:element name="catalogueNumber" type="xs:string"></xs:element>
+      <xs:element name="hasArtist" type="odmc:relationType" minOccurs="1" maxOccurs="unbounded"></xs:element>
+      <xs:element name="label" type="odmc:labelType" minOccurs="1" maxOccurs="unbounded"></xs:element>
+      <xs:element name="hasTrack" type="odmc:relationType" minOccurs="1" maxOccurs="unbounded"></xs:element>
+      <xs:element name="description" type="odmc:descriptionType" minOccurs="0" maxOccurs="unbounded"></xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="labelType">
+    <xs:sequence>
+      <xs:element name="name" type="odmc:titleType"></xs:element>
+      <xs:element name="type">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="imprint"/>
+            <xs:enumeration value="producer"/>
+            <xs:enumeration value="distributor"/>
+            <xs:enumeration value="holding"/>
+            <xs:enumeration value="rights society"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="labelCode" type="xs:string"></xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  
+  
+
+  <!-- DESCRIPTIVE METADATA TYPES -->
+
+  <xs:complexType name="titleType">
+    <xs:sequence>
+      <xs:element ref="dc:title" minOccurs="1" maxOccurs="unbounded"></xs:element>
+    </xs:sequence>
+    <xs:attribute name="lang" type="xs:language"></xs:attribute>
+    <xs:attribute name="note" type="xs:string"></xs:attribute>
+  </xs:complexType>
+
+  <xs:complexType name="descriptionType">
+    <xs:sequence>
+      <xs:element ref="dc:description" minOccurs="0" maxOccurs="unbounded"></xs:element>
+      <xs:element name="attributor" type="xs:string" minOccurs="0"></xs:element>
+    </xs:sequence>
+    <xs:attribute name="lang" type="xs:language"></xs:attribute>
+    <xs:attribute name="note" type="xs:string"></xs:attribute>
+  </xs:complexType>
+
+  <xs:complexType name="relationType">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element ref="dc:relation"></xs:element>
+      <xs:element name="relationIdentifier" type="odmc:relationIdentifierType"></xs:element>
+    </xs:choice>
+    <xs:attributeGroup ref="odmc:relationAttributes"/>
+  </xs:complexType>
+
+  <xs:complexType name="relationIdentifierType">
+    <xs:choice>
+      <xs:element ref="dc:identifier"/>
+      <xs:element name="ISNI" type="odmc:ISNI_IdRef"></xs:element>
+      <xs:element name="ISRC" type="odmc:ISRC_IdRef"></xs:element>
+      <xs:element name="ISWC" type="odmc:ISWC_IdRef"></xs:element>
+    </xs:choice>
+  </xs:complexType>
+
+  <xs:attributeGroup name="relationAttributes">
+    <xs:attribute name="label" type="xs:string"></xs:attribute>
+    <xs:attribute name="description" type="xs:string"></xs:attribute>
+    <xs:attribute name="runningOrderNumber" type="xs:int"></xs:attribute>
+    <xs:attribute name="totalOrderNumber" type="xs:int"></xs:attribute>
+    <xs:attribute name="note" type="xs:string"></xs:attribute>
+  </xs:attributeGroup>
+  
+  
+  
+  <!-- IDs AND IDREFs -->
+
+  <xs:complexType name="ISNI_Id">
+    <xs:attribute name="id" type="odmc:ISNIType" use="required"></xs:attribute>
+  </xs:complexType>
+
+  <xs:complexType name="ISNI_IdRef">
+    <xs:attribute name="idref" type="odmc:ISNIType" use="required"></xs:attribute>
+  </xs:complexType>
+
+  <xs:simpleType name="ISNIType">
+    <xs:restriction base="xs:NCName">
+      <xs:pattern value="ISNI_[0-9]{16}"/>
+    </xs:restriction>
+  </xs:simpleType>
+  
+
+  <xs:complexType name="ISRC_Id">
+    <xs:attribute name="id" type="odmc:ISRCType" use="required"></xs:attribute>
+  </xs:complexType>
+
+  <xs:complexType name="ISRC_IdRef">
+    <xs:attribute name="idref" type="odmc:ISRCType" use="required"></xs:attribute>
+  </xs:complexType>
+
+  <xs:simpleType name="ISRCType">
+    <xs:restriction base="xs:NCName">
+      <xs:pattern value="ISRC_([a-zA-Z]{5})([0-9]{7})"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+
+  <xs:complexType name="ISWC_Id">
+    <xs:attribute name="id" type="odmc:ISWCType" use="required"></xs:attribute>
+  </xs:complexType>
+
+  <xs:complexType name="ISWC_IdRef">
+    <xs:attribute name="idref" type="odmc:ISWCType" use="required"></xs:attribute>
+  </xs:complexType>
+  
+  <xs:simpleType name="ISWCType">
+    <xs:restriction base="xs:NCName">
+      <xs:pattern value=  "ISWC_T-([0-9]{3}).([0-9]{3}).([0-9]{3})-([a-zA-z])"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  
+  
+  <!-- TECHNICAL METADATA TYPES -->
+  
+  <xs:complexType name="fileType" abstract="true">
+    <xs:sequence>
+      <xs:element name="fileName" type="odmc:titleType" minOccurs="1"></xs:element>
+      <xs:element name="fileSize" type="odmc:dimensionType" minOccurs="1"></xs:element>
+      <xs:element name="locator" type="xs:anyURI" minOccurs="1" maxOccurs="unbounded"></xs:element>
+    </xs:sequence>
+    <xs:attribute name="fileID" use="required" type="xs:ID"></xs:attribute>
+  </xs:complexType>
+
+  <xs:attributeGroup name="fileFormatAttributes">
+    <xs:attribute name="formatID" use="required" type="xs:anyURI"></xs:attribute>
+    <xs:attribute name="formatVersion" use="required" type="xs:string"></xs:attribute>
+    <xs:attribute name="formatName" use="required" type="xs:string"></xs:attribute>
+  </xs:attributeGroup>
+
+  <xs:complexType name="audioFileType">
+    <xs:complexContent>
+      <xs:extension base="odmc:fileType">
+        <xs:sequence>
+          <xs:element name="hash" type="odmc:hashType" minOccurs="0"></xs:element>
+          <xs:element name="bitRate" type="odmc:dimensionType" minOccurs="0"></xs:element>
+          <xs:element name="audioFormat" type="odmc:audioFormatType"></xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="audioFormatType">
+    <xs:sequence>
+      <xs:element name="codec" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element name="compressedFlag" type="xs:boolean" minOccurs="0"></xs:element>
+      <xs:element name="losslessFlag" type="xs:boolean" minOccurs="0"></xs:element>
+    </xs:sequence>
+    <xs:attributeGroup ref="odmc:fileFormatAttributes"/>
+  </xs:complexType>
+
+  <xs:complexType name="dimensionType">
+    <xs:simpleContent>
+      <xs:extension base="xs:nonNegativeInteger">
+        <xs:attribute name="unit" type="xs:string"></xs:attribute>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
+  <xs:complexType name="hashType">
+    <xs:sequence>
+      <xs:element name="hashValue" type="xs:hexBinary" minOccurs="1"></xs:element>
+      <xs:element name="hashFunction" minOccurs="1"></xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  
+
+</xs:schema>
