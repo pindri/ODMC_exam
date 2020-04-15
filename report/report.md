@@ -10,7 +10,10 @@ documentclass: article
 ### geometry: "left=4cm,right=4cm,top=4cm,bottom=4cm"
 
 toc: true
-linkcolor:
+linkcolor: Mulberry
+citecolor: Mulberry
+urlcolor: Mulberry
+toccolor: Black
 ---
 
 <div style="text-align: justify">
@@ -58,7 +61,8 @@ linkcolor:
 
 ## What should the data model be able to represent?
 
-A model for audio data resources should be able to represent songs (and their possible different versions) and their groupings (in albums, compilations or other releases). Moreover, it should model authoring for artists (singers and lyricists) and other professional figures such as music producers. The model should handle technical metadata as well. Additionally, relations between different classes (e.g., a work is part of another work, two artists cooperated for a release) should be handeld as well.
+A model for audio data resources should be able to represent songs (and their possible different versions) and their groupings (in albums, compilations or other releases). Moreover, it should model authoring for artists (singers and lyricists) and other professional figures such as music producers. The model should handle technical metadata as well. Additionally, relations between different classes (e.g., a work is part of another work, two artists cooperated for a release) should be handeld as well. \
+
 
 ## A more detailed description of the model entities/classes
 
@@ -70,9 +74,7 @@ The proposed model consists of the following four main classes:
 
 * Commercial issues of works are grouped into a **release**. Each release contains a track-list for the recordings it contains and has a title, an artist, information about the label and a form of identification (e.g., a catalogue number provided by the label).
 
-* The paternity of works belongs to **artists**, which represent single musicians, groups of musicians or other professional figures (e.g., producers, lyricists, sound engineers). ISNI is a standard identifier for public entities of contribution to media content and can be associated to each artist. Artists have name, type and ISNI.
-
-\ 
+* The paternity of works belongs to **artists**, which represent single musicians, groups of musicians or other professional figures (e.g., producers, lyricists, sound engineers). ISNI is a standard identifier for public entities of contribution to media content and can be associated to each artist. Artists have name, type and ISNI. \
 
 Additionally, the following secondary classes are defined:
 
@@ -81,7 +83,8 @@ Additionally, the following secondary classes are defined:
 * **Format**. Base class for format metadata. A format has ID, version and name.
   * **Audio Format**. Adds format metadata details for audio files, has codec, compression flag and lossless flag.
 * **Label**. Holds information about imprints and record companies that take part in the production and distribution of a release. Label can uniquely identified by their label code.
-* **Place**. Specifies the place where music is performed, recorded, mixed, etc.
+* **Place**. Specifies the place where music is performed, recorded, mixed, etc. \
+
 
 ## UML model
 
@@ -89,9 +92,9 @@ In the following model square endpoints denote aggregation and arrow endpoints d
 
 ![](ODMC.pdf){width=100%}
 
-The proposed design assumes each recording, work and release to be associated with a credited artist (i.e., their participation to the _credit_ relationship is total). This assumption can be satisfied defining special purpose artists to deal with unknown authors, traditional songs, etc. 
+The proposed design assumes each recording, work and release to be associated with a credited artist (i.e., their participation to the _credit_ relationship is total). This assumption can be satisfied defining special purpose artists to deal with unknown authors, traditional songs, etc. \
 
-\
+
 
 # Data Model: implementation
 
@@ -103,7 +106,7 @@ Relational databases offer a trivial way to enforce constraints between entities
 
 On the other hand, XML databases (document-based databases in general) are meant to be a more flexible means to store data, integrity not being their first concern. For a given XML schema, an XML documents can usually contain partial/incomplete information. This is appealing for the task at hand since not all the metadata for a given release may be available. However, many-to-many and many-to-one relationships are harder to handle.
 
-For this particular project, flexibility has been privileged: the model implementation will consists in a XML schema definition (XSD). It should be noted that a PostgreSQL implementation for a similar base model is provided by [MusicBrainz](https://musicbrainz.org/doc/MusicBrainz_Database/), a collaborative music metadata project. 
+For this particular project, flexibility has been privileged: the model implementation will consists in a XML schema definition (XSD). It should be noted that a PostgreSQL implementation for a similar base model is provided by [MusicBrainz](https://musicbrainz.org/doc/MusicBrainz_Database/), a collaborative music metadata project. \
 
 
 ## XSD
@@ -134,28 +137,30 @@ All the constraints (cardinality and participation) have been modelled.
 
 ### On references (and between different documents)
 
-Relations implemented via REFID and ID. Key can be used (multi field). Between documents is a problem.
+In EBUCore relations are implemented via REFID and ID. While this choice allows for an easy implementation and provides continuity with DTD, XSD offers a much more flexible KEY/KEYREF syntax: identifiers and references are selected using XPath expressions. Keys and keys references (can) act like the primary and foreign keys of a relational database. Additionally, keys can be multi-field (that is, an item can be identified and referenced using more than one field).
+
+Both ID/IDREF and KEY/KEYREF approaches are flexible enough to describe the relations of the UML model; for presented reasons, the KEY/KEYREF paradigm has been adopted in this schema. It is worth nothing how neither of the approaches allows across-document relations and constraints. XSD integrity constraints are indeed intended for use within a single document. There exist XSD extensions such as W3C's Service Modeling Language or other rule-based validation languages such as Schematron that do handle inter-document constraints: these possibilities have not been addressed.
 
 ### XML example
 
+The following fragment shows a valid instance of a work. It contains both an `id` to identify the work and an `idref` to reference a related recording. Furthermore, it shows how the `label` and `description` attribute can be used to describe related items.
+
 ```xml
 <work>
-  <ISWC>
-    ISWC_T-000.000.000-A
-  </ISWC>
+  <ISWC id="ISWC_T-000.000.000-A"></ISWC>
   <title lang="en">
     <dc:title>Test Work</dc:title>
   </title>
   <hasArtist label="William Wilson" description="Singer"></hasArtist>
   <hasPerformance label="Test Recording" description="Studio Version">
     <relationIdentifier>
-      <ISRC>
-        ISRC_AAAAA0000000
-      </ISRC>
+      <ISRC idref="ISRC_AAAAA0000000"></ISRC>
     </relationIdentifier>
   </hasPerformance>
 </work>
 ```
+
+A more extensive XML example document has been provided alongside the XSD. \
 
 # Other
 
