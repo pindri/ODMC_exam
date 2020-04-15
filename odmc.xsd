@@ -19,7 +19,7 @@
         Root element of the schema.
       </xs:documentation>
     </xs:annotation>
-    
+
     <xs:key name="relationId">
       <xs:annotation>
         <xs:documentation>
@@ -91,7 +91,6 @@
         </xs:documentation>
       </xs:annotation>
     </xs:attribute>
-      
   </xs:complexType>
 
   <xs:complexType name="odmcItemsType">
@@ -357,16 +356,44 @@
   </xs:complexType>
 
   <xs:complexType name="relationType">
+    <xs:annotation>
+      <xs:documentation>
+        Models relations between items providing an identifier for the related item. Resources can be identified by a title (in accordance with Dublin Core) or, preferably, by a unique ID.
+      </xs:documentation>
+    </xs:annotation>
     <xs:choice minOccurs="0" maxOccurs="unbounded">
-      <xs:element ref="dc:relation"></xs:element>
-      <xs:element name="relationIdentifier" type="odmc:relationIdentifierType"></xs:element>
+      <xs:element ref="dc:relation">
+        <xs:annotation>
+          <xs:documentation>
+            The relationType is built as a refinement of Dublin Core dc:relation. This choice accepts a title to identify the related item.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="relationIdentifier" type="odmc:relationIdentifierType">
+        <xs:annotation>
+          <xs:documentation>
+            This choice accepts one of the defined unique identifiers to identify the related item.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
     </xs:choice>
     <xs:attributeGroup ref="odmc:relationAttributes"/>
   </xs:complexType>
 
   <xs:complexType name="relationIdentifierType">
+    <xs:annotation>
+      <xs:documentation>
+        Defines a series of resource identifiers, in accordance with different ISO standards.
+      </xs:documentation>
+    </xs:annotation>
     <xs:choice>
-      <xs:element ref="dc:identifier"/>
+      <xs:element ref="dc:identifier">
+        <xs:annotation>
+          <xs:documentation>
+            The relationIdentifierType is built as a refinement of Dublin Core dc:identifier.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
       <xs:element name="ISNI" type="odmc:ISNI_IdRef"></xs:element>
       <xs:element name="ISRC" type="odmc:ISRC_IdRef"></xs:element>
       <xs:element name="ISWC" type="odmc:ISWC_IdRef"></xs:element>
@@ -374,6 +401,11 @@
   </xs:complexType>
 
   <xs:attributeGroup name="relationAttributes">
+    <xs:annotation>
+      <xs:documentation>
+        Group of attributes to label and describe relations. Attributes for track numbering are provided.
+      </xs:documentation>
+    </xs:annotation>
     <xs:attribute name="label" type="xs:string"></xs:attribute>
     <xs:attribute name="description" type="xs:string"></xs:attribute>
     <xs:attribute name="runningOrderNumber" type="xs:int"></xs:attribute>
@@ -394,6 +426,11 @@
   </xs:complexType>
 
   <xs:simpleType name="ISNIType">
+    <xs:annotation>
+      <xs:documentation>
+        International Standard Name Identifier, a unique identifier for public entities of contribution in media content defined by ISO 27729.
+      </xs:documentation>
+    </xs:annotation>
     <xs:restriction base="xs:NCName">
       <xs:pattern value="ISNI_[0-9]{16}"/>
     </xs:restriction>
@@ -409,6 +446,11 @@
   </xs:complexType>
 
   <xs:simpleType name="ISRCType">
+    <xs:annotation>
+      <xs:documentation>
+        International Standard Recording Code, a unique identifier for a recording defined by ISO 3901:2001.
+      </xs:documentation>
+    </xs:annotation>
     <xs:restriction base="xs:NCName">
       <xs:pattern value="ISRC_([a-zA-Z]{5})([0-9]{7})"/>
     </xs:restriction>
@@ -424,6 +466,11 @@
   </xs:complexType>
   
   <xs:simpleType name="ISWCType">
+    <xs:annotation>
+      <xs:documentation>
+        International Standard musical Work, a unique identifier for a musical work defined by ISO 15707.
+      </xs:documentation>
+    </xs:annotation>
     <xs:restriction base="xs:NCName">
       <xs:pattern value=  "ISWC_T-([0-9]{3}).([0-9]{3}).([0-9]{3})-([a-zA-z])"/>
     </xs:restriction>
@@ -434,42 +481,121 @@
   <!-- TECHNICAL METADATA TYPES -->
   
   <xs:complexType name="fileType" abstract="true">
+    <xs:annotation>
+      <xs:documentation>
+        Abstract type for files, provides generic information.
+      </xs:documentation>
+    </xs:annotation>
     <xs:sequence>
       <xs:element name="fileName" type="odmc:titleType" minOccurs="1"></xs:element>
       <xs:element name="fileSize" type="odmc:dimensionType" minOccurs="1"></xs:element>
-      <xs:element name="locator" type="xs:anyURI" minOccurs="1" maxOccurs="unbounded"></xs:element>
+      <xs:element name="locator" type="xs:anyURI" minOccurs="1" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            Address for the resource. A URI that can be expressed, for instance, as a file path or and URL.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
     </xs:sequence>
-    <xs:attribute name="fileID" use="required" type="xs:ID"></xs:attribute>
+    <xs:attribute name="fileID" use="required" type="xs:ID">
+      <xs:annotation>
+        <xs:documentation>
+          A unique identifier for the file resource.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
   </xs:complexType>
 
   <xs:attributeGroup name="fileFormatAttributes">
-    <xs:attribute name="formatID" use="required" type="xs:anyURI"></xs:attribute>
+    <xs:attribute name="formatID" use="required" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          Unique identifier for file formats.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
     <xs:attribute name="formatVersion" use="required" type="xs:string"></xs:attribute>
     <xs:attribute name="formatName" use="required" type="xs:string"></xs:attribute>
   </xs:attributeGroup>
 
   <xs:complexType name="audioFileType">
+    <xs:annotation>
+      <xs:documentation>
+        Provides a set of technical metadata for audio files.
+      </xs:documentation>
+    </xs:annotation>
     <xs:complexContent>
+      <xs:annotation>
+        <xs:documentation>
+          The audioFileType is implemented as an extension of fileType.
+        </xs:documentation>
+      </xs:annotation>
       <xs:extension base="odmc:fileType">
         <xs:sequence>
-          <xs:element name="hash" type="odmc:hashType" minOccurs="0"></xs:element>
-          <xs:element name="bitRate" type="odmc:dimensionType" minOccurs="0"></xs:element>
-          <xs:element name="audioFormat" type="odmc:audioFormatType"></xs:element>
+          <xs:element name="hash" type="odmc:hashType" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>
+                Audio fingerprinting information, can uniquely identify an audio file and can be used for file integrity.
+              </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="bitRate" type="odmc:dimensionType" minOccurs="0">
+            <xs:annotation>
+              <xs:documentation>
+                Sampling frequente for the audio file.
+              </xs:documentation>
+            </xs:annotation>
+          </xs:element>
+          <xs:element name="audioFormat" type="odmc:audioFormatType">
+            <xs:annotation>
+              <xs:documentation>
+                Provides detail on the audio format.
+              </xs:documentation>
+            </xs:annotation>
+          </xs:element>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
 
   <xs:complexType name="audioFormatType">
+    <xs:annotation>
+      <xs:documentation>
+        Provides a set of technical metadata for audio format files.
+      </xs:documentation>
+    </xs:annotation>
     <xs:sequence>
-      <xs:element name="codec" type="xs:string" minOccurs="0"></xs:element>
-      <xs:element name="compressedFlag" type="xs:boolean" minOccurs="0"></xs:element>
-      <xs:element name="losslessFlag" type="xs:boolean" minOccurs="0"></xs:element>
+      <xs:element name="codec" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Identifies the instrument/software used for the audio encoding.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="compressedFlag" type="xs:boolean" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Boolean flag to mark compressed audio files.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="losslessFlag" type="xs:boolean" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Boolean flag to mark lossless audio files.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
     </xs:sequence>
     <xs:attributeGroup ref="odmc:fileFormatAttributes"/>
   </xs:complexType>
 
   <xs:complexType name="dimensionType">
+    <xs:annotation>
+      <xs:documentation>
+        Extension of xs:nonNegativeInteger, adding a unit attribute.
+      </xs:documentation>
+    </xs:annotation>
     <xs:simpleContent>
       <xs:extension base="xs:nonNegativeInteger">
         <xs:attribute name="unit" type="xs:string"></xs:attribute>
@@ -478,6 +604,11 @@
   </xs:complexType>
 
   <xs:complexType name="hashType">
+    <xs:annotation>
+      <xs:documentation>
+        Specifies the information of an audio fingerprint, listing the hash value and the hash function used to obtain it.
+      </xs:documentation>
+    </xs:annotation>
     <xs:sequence>
       <xs:element name="hashValue" type="xs:hexBinary" minOccurs="1"></xs:element>
       <xs:element name="hashFunction" minOccurs="1"></xs:element>
