@@ -9,43 +9,92 @@
 
   <xs:annotation>
     <xs:documentation>
-      Prototyped XML Schema for the Open Data Management and Cloud exam at UniTS. 
+      Prototyped XML Schema for the Open Data Management and Cloud exam at UniTS.
     </xs:documentation>
   </xs:annotation>
-
-  <xs:annotation>
-    <xs:documentation>
-      
-    </xs:documentation>
-  </xs:annotation>
-
   
   <xs:element name="odmcMain" type="odmc:odmcMainType">
+    <xs:annotation>
+      <xs:documentation>
+        Root element of the schema.
+      </xs:documentation>
+    </xs:annotation>
     
     <xs:key name="relationId">
-      <xs:selector xpath="./odmc:odmcMetadata/odmc:recording/odmc:ISRC |
-                          ./odmc:odmcMetadata/odmc:artist/odmc:ISNI    |
-                          ./odmc:odmcMetadata/odmc:work/odmc:ISWC"
+      <xs:annotation>
+        <xs:documentation>
+          Identifier key for recordings, artists and works.
+        </xs:documentation>
+      </xs:annotation>
+      <xs:selector xpath="./odmc:odmcItems/odmc:recording/odmc:ISRC |
+                          ./odmc:odmcItems/odmc:artist/odmc:ISNI    |
+                          ./odmc:odmcItems/odmc:work/odmc:ISWC"
                           />
       <xs:field xpath="@id"/>
     </xs:key>
     <xs:keyref name="relationIdref" refer="odmc:relationId">
+      <xs:annotation>
+        <xs:documentation>
+          Identifier keyref for relationType elements.
+        </xs:documentation>
+      </xs:annotation>
       <xs:selector xpath=".//odmc:relationIdentifier/*"/>
       <xs:field xpath="@idref"/>
     </xs:keyref>
     
   </xs:element>
   
-  <!-- Saved -->
 
   <xs:complexType name="odmcMainType">
     <xs:sequence>
-      <xs:element name="odmcMetadata" type="odmc:odmcMetadataType"></xs:element>
-      <!-- Other things like version, dates, etc. -->
+      <xs:element name="odmcItems" type="odmc:odmcItemsType">
+        <xs:annotation>
+          <xs:documentation>
+            The body of content. Consists of a list of the defined items.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="provider" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Free text details on the provider of the XML document.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
     </xs:sequence>
+    <!-- Other things like version, dates, etc. -->
+    <xs:attribute name="dateLastModified" type="xs:date">
+      <xs:annotation>
+        <xs:documentation>
+          The date of last edition for the current document.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="timeLastModified" type="xs:time">
+      <xs:annotation>
+        <xs:documentation>
+          The time of last edition for the current document.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="documentLocation" type="xs:anyURI">
+      <xs:annotation>
+        <xs:documentation>
+          The location at which the current document can be found.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="documentID" type="xs:token">
+      <xs:annotation>
+        <xs:documentation>
+          A unique identifier for the current document.
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+      
   </xs:complexType>
 
-  <xs:complexType name="odmcMetadataType">
+  <xs:complexType name="odmcItemsType">
     <xs:choice minOccurs="0" maxOccurs="unbounded">
       <xs:element name="recording" type="odmc:recordingType" minOccurs="0" maxOccurs="unbounded"/>
       <xs:element name="artist" type="odmc:artistType" minOccurs="0" maxOccurs="unbounded"/>

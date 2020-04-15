@@ -5,7 +5,7 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="DSSC:odmc odmc.xsd">
 
-  <odmcMetadata>
+  <odmcItems>
 
 
     <artist>
@@ -122,7 +122,7 @@
 
 
     
-  </odmcMetadata>
+  </odmcItems>
   
   
 </odmcMain>
