@@ -21,6 +21,7 @@ linkcolor:
 
 **TODO:**
 
+* placeTypeType, artistTypeType, address type;
 * check UML cardinality;
 * data models for discovery;
 * more details on the [preservation](#preservation) section; 

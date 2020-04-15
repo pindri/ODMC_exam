@@ -95,11 +95,40 @@
   </xs:complexType>
 
   <xs:complexType name="odmcItemsType">
+    <xs:annotation>
+      <xs:documentation>
+        Provides the sequence of available items.
+      </xs:documentation>
+    </xs:annotation>
     <xs:choice minOccurs="0" maxOccurs="unbounded">
-      <xs:element name="recording" type="odmc:recordingType" minOccurs="0" maxOccurs="unbounded"/>
-      <xs:element name="artist" type="odmc:artistType" minOccurs="0" maxOccurs="unbounded"/>
-      <xs:element name="work" type="odmc:workType" minOccurs="0" maxOccurs="unbounded"/>
-      <xs:element name="release" type="odmc:releaseType" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="recording" type="odmc:recordingType" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            Models a recording, a unique version of a song.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="artist" type="odmc:artistType" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            Models an artist (musician, group of musicians and professional figures).
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="work" type="odmc:workType" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            Models a song as an intellectual creation, the one declined in the various recordings.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="release" type="odmc:releaseType" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            Models a commercial issue of one or more works.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
     </xs:choice>
   </xs:complexType>
 
@@ -109,21 +138,56 @@
 
   <xs:complexType name="recordingType">
     <xs:sequence>
-      <xs:element name="ISRC" type="odmc:ISRC_Id"></xs:element>
+      <xs:element name="ISRC" type="odmc:ISRC_Id">
+        <xs:annotation>
+          <xs:documentation>
+            International Standard Recording Code, a unique identifier for a recording defined by ISO 3901:2001.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
       <xs:element name="title" type="odmc:titleType"></xs:element>
       <xs:element name="duration" type="xs:duration"></xs:element>
-      <xs:element name="place" type="odmc:placeType" minOccurs="0" maxOccurs="unbounded"></xs:element>
+      <xs:element name="place" type="odmc:placeType" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            Place where the recording was recorded.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
       <xs:element name="hasArtist" type="odmc:relationType" minOccurs="1" maxOccurs="unbounded"></xs:element>
-      <xs:element name="isPerformanceOf" type="odmc:relationType" minOccurs="1" maxOccurs="1"></xs:element>
+      <xs:element name="isPerformanceOf" type="odmc:relationType" minOccurs="1" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>
+            Relation to the work whose performance the current recording refers to.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
       <xs:element name="description" type="odmc:descriptionType" minOccurs="0" maxOccurs="unbounded"></xs:element>
-      <xs:element name="audioFile" type="odmc:audioFileType" minOccurs="1" maxOccurs="1"></xs:element>
+      <xs:element name="audioFile" type="odmc:audioFileType" minOccurs="1" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>
+            Audio content of the recording.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
     </xs:sequence>
   </xs:complexType>
 
   <xs:complexType name="placeType">
+    <xs:annotation>
+      <xs:documentation>
+        A studio, venue or other place where the music is recorded.
+      </xs:documentation>
+    </xs:annotation>
     <xs:sequence>
       <xs:element name="name" type="xs:string"></xs:element>
-      <xs:element name="type" type="xs:string"></xs:element>
+      <xs:element name="type" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>
+            Describes the place function (e.g., recording studio, religious building).
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
       <xs:element name="address" type="xs:string"></xs:element>
       <xs:element name="description" type="odmc:descriptionType" minOccurs="0" maxOccurs="unbounded"></xs:element>
     </xs:sequence>
@@ -131,20 +195,56 @@
 
   <xs:complexType name="artistType">
     <xs:sequence>
-      <xs:element name="ISNI" type="odmc:ISNI_Id"></xs:element>
+      <xs:element name="ISNI" type="odmc:ISNI_Id">
+        <xs:annotation>
+          <xs:documentation>
+            International Standard Name Identifier, a unique identifier for public entities of contribution in media content defined by ISO 27729.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
       <xs:element name="name" type="odmc:titleType" minOccurs="0" maxOccurs="unbounded"></xs:element>
-      <xs:element name="type" type="xs:string" minOccurs="0" maxOccurs="unbounded"></xs:element>
+      <xs:element name="type" type="xs:string" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            States whether the artist is an individual person, a group, etc.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
       <xs:element name="description" type="odmc:descriptionType" minOccurs="0" maxOccurs="unbounded"></xs:element>
     </xs:sequence>
   </xs:complexType>
 
   <xs:complexType name="workType">
     <xs:sequence>
-      <xs:element name="ISWC" type="odmc:ISWC_Id"></xs:element>
+      <xs:element name="ISWC" type="odmc:ISWC_Id">
+        <xs:annotation>
+          <xs:documentation>
+            International Standard musical Work, a unique identifier for a musical work defined by ISO 15707.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
       <xs:element name="title" type="odmc:titleType"></xs:element>
-      <xs:element name="hasArtist" type="odmc:relationType" minOccurs="1" maxOccurs="unbounded"></xs:element>
-      <xs:element name="hasPerformance" type="odmc:relationType" minOccurs="1" maxOccurs="unbounded"></xs:element>
-      <xs:element name="hasRelatedWork" type="odmc:relationType" minOccurs="0" maxOccurs="unbounded"></xs:element>
+      <xs:element name="hasArtist" type="odmc:relationType" minOccurs="1" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            Identifies an artist who contributes to the work.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="hasPerformance" type="odmc:relationType" minOccurs="1" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            Identifies a performance (that is, a recording) of the work.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="hasRelatedWork" type="odmc:relationType" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            Identifies related works.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
       <xs:element name="description" type="odmc:descriptionType" minOccurs="0" maxOccurs="unbounded"></xs:element>
     </xs:sequence>
   </xs:complexType>
@@ -152,15 +252,44 @@
   <xs:complexType name="releaseType">
     <xs:sequence>
       <xs:element name="title" type="odmc:titleType"></xs:element>
-      <xs:element name="catalogueNumber" type="xs:string"></xs:element>
-      <xs:element name="hasArtist" type="odmc:relationType" minOccurs="1" maxOccurs="unbounded"></xs:element>
-      <xs:element name="label" type="odmc:labelType" minOccurs="1" maxOccurs="unbounded"></xs:element>
-      <xs:element name="hasTrack" type="odmc:relationType" minOccurs="1" maxOccurs="unbounded"></xs:element>
+      <xs:element name="catalogueNumber" type="xs:string">
+        <xs:annotation>
+          <xs:documentation>
+            Catalogue number for the release (depends on the label).
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="hasArtist" type="odmc:relationType" minOccurs="1" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            Identifies an artist who contributes to the release.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="label" type="odmc:labelType" minOccurs="1" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            Identifies the label (usually imprints).
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="hasTrack" type="odmc:relationType" minOccurs="1" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            Relation with tracks part of the release.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
       <xs:element name="description" type="odmc:descriptionType" minOccurs="0" maxOccurs="unbounded"></xs:element>
     </xs:sequence>
   </xs:complexType>
 
   <xs:complexType name="labelType">
+    <xs:annotation>
+      <xs:documentation>
+        Details information about a label.
+      </xs:documentation>
+    </xs:annotation>
     <xs:sequence>
       <xs:element name="name" type="odmc:titleType"></xs:element>
       <xs:element name="type">
@@ -183,17 +312,45 @@
   <!-- DESCRIPTIVE METADATA TYPES -->
 
   <xs:complexType name="titleType">
+    <xs:annotation>
+      <xs:documentation>
+        The name given to a certain item/resource.
+      </xs:documentation>
+    </xs:annotation>
     <xs:sequence>
-      <xs:element ref="dc:title" minOccurs="1" maxOccurs="unbounded"></xs:element>
+      <xs:element ref="dc:title" minOccurs="1" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            The titleType is built as a refinement of Dublin Core dc:title. Languages and notes can be provided.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
     </xs:sequence>
     <xs:attribute name="lang" type="xs:language"></xs:attribute>
     <xs:attribute name="note" type="xs:string"></xs:attribute>
   </xs:complexType>
 
   <xs:complexType name="descriptionType">
+    <xs:annotation>
+      <xs:documentation>
+        Free-form text providing general notes for an item. Descriptions can be provided in different languages.
+      </xs:documentation>
+    </xs:annotation>
     <xs:sequence>
-      <xs:element ref="dc:description" minOccurs="0" maxOccurs="unbounded"></xs:element>
-      <xs:element name="attributor" type="xs:string" minOccurs="0"></xs:element>
+      <xs:element ref="dc:description" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            The descriptionType is built as a refinement of Dublin Core dc:description. The type of the description (e.g., summary, abstract) can be provided using the note attribute.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="attributor" type="xs:string" minOccurs="0">
+        <xs:annotation>
+          <xs:documentation>
+            Identifies the source of the description.
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
     </xs:sequence>
     <xs:attribute name="lang" type="xs:language"></xs:attribute>
     <xs:attribute name="note" type="xs:string"></xs:attribute>
