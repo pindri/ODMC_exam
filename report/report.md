@@ -1,7 +1,9 @@
 ---
-title: "**Subject to change**"
+title: |
+  | **Open Data Management & Cloud**
+  | **Exam Project**
 author:
- - Patrick Indri
+ - "**Patrick Indri**"
 date: September 1, 2008
 
 lang: en-GB
@@ -162,13 +164,51 @@ The following fragment shows a valid instance of a work. It contains both an `id
 
 A more extensive XML example document has been provided alongside the XSD. \
 
-# Other
 
-**Cloud**
-**Storage**
-**OAIS**: sketch model.
 
-# Preservation
+# Interfaces and services
+
+A full fledged service that adopts the prototyped XSD is out of the scope of this project. However, some possible services related to the resource discovery and accessibility will now be discussed.
+
+The two main goals an actual implementation of this project should achieve are: music query (i.e., a music search/download service) and database update (i.e., a service devoted to the addition of new documents to the database). Both this services are related to the [data storage](#data-discovery), which will be briefly discussed as well.
+
+
+## Data discovery
+
+The most fundamental service an archive should provide is a search/filter service.
+
+In order to make data accessible in the first place, a web service should be implemented. Users should have network access the archive, and the archive web page should be identified by a URL. The filtering service should offer the typical search fields for music queries: users should be able to query authors, works, recordings and releases. Luckily, these usual query fields correspond exactly to the main classes of the presented model. Thus, searching for a specific artist would parse the `artist` elements only. Queries would most probably be free-text queries on the various classes.
+
+On the back end, queries would be carried out using XQuery, a query language built on XPath (and a W3C Recommendation for XML queries). Since the data model is known, and has a reasonably strict structure, simple queries could be trivially implemented. For instance, XPath queries are supported by the `xml.etree.ElementTree` Python module.
+
+Traditional information retrieval techniques could be used to substantially improve the results of a query. First of all, spelling correction techniques could be employed. The _Levenshtein distance_ offers a simple approach to spelling correction: if the query returns no record, and thus the query possibly contains a spelling error, the closest results in terms of number of edit operations are retrieved. A query for "Pink Floid" will probably return no results. However, "Pink Floyd" has a unitary edit distance and will be consequently returned as a result. Alternatives approaches would involve using k-gram distance and the Jaccard coefficient for queries. This simple improvement would certainly favour data discovery. Additionally, a popularity value could be used to rank results: the user would be answered with the most popular (in terms of queries or downloads, for instance) items.
+
+ * Filtering service (xml indices suffer from index size and construction costs);
+
+### Data access
+
+Once the data has been located, it should be easily accessible via download. The user should be able to separately download different versions (i.e., different file formats) of the same resource, if they are available. Ideally, a preview of the resource should be available as well: users should be able to listen to a certain song in their browser without downloading the file itself. It must be pointed out that this is possible only if the file storage allows sequential access to files. As an additional service, a user might want to download all the songs credited to a certain artist: a mechanism exploiting XPath queries to build on-demand compilations should make this service possible.
+
+### Data annotation
+
+In all previous sections of the project a strict division between data and metadata has been enforced. The XSD models the metadata structure which has some references to audio files which are separately handled. However, audio files themselves can and should embed metadata. Unfortunately, no standard metadata container for audio files knows widespread use. What follows focuses on commonly used audio file format; they will addressed again in the [interoperability and preservation](#interoperability-and-preservation) section.
+
+ID3 (and particularly the extended ID3v2) is the _de facto_ standard for Mp3 files, the most common and widely used audio file format. ID3 all the common music metadata tags and can store all the metadata of the proposed model. Additionally, it supports image tags to store album covers and similar content. ID3 was designed specifically for Mp3 files few other formats support it (WAW being one).
+
+XMP (Extensible Metadata Platform) is an ISO standard commonly used in JPEG images 
+
+Vorbis for flac
+
+
+## Storage and cloud solutions
+
+* Storage (both XML documents and audio files);
+* Cloud;
+
+# Interoperability and preservation
+
+* Interoperability;
+* **OAIS**: sketch model.
 
 # Software and tools used
 
