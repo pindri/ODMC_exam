@@ -11,7 +11,7 @@ lang: en-GB
 documentclass: article
 ### geometry: "left=4cm,right=4cm,top=4cm,bottom=4cm"
 
-toc: true
+toc: false
 linkcolor: Mulberry
 citecolor: Mulberry
 urlcolor: Mulberry
@@ -21,41 +21,34 @@ toccolor: Black
 <div style="text-align: justify">
 
 
-# Project notes
-
-
-**TODO:**
-
-* placeTypeType, artistTypeType, address type;
-* check UML cardinality;
-* data models for discovery;
-* more details on the [preservation](#preservation) section; 
-* sort names;
-* possible expansion to deal with images;
-* standard for archiving: WAW 96khz, 24bit or FLAC, with MP3 download;
-
-
 # Introduction
-
-**Aim:** Investigation of (long term) audio file archiving for music + prototyped data model design and implementation. 
-
-
-
-**Data resource:** audio files, probably different formats, encodings, metadata content (anche dentro il file id3).
-**Concepts**
-**Contents**
-
-
-
-**Discovery**
-**Access**
-**Interoperability**
 
 ## Aim of the project
 
-## On the lack of a metadata standard for audio files: EBUcore
-* EBUcore (based on Dublin Core). 
+The aim of this project is to investigate audio file archiving for music. In particular, a data model will be presented and its implementation prototyped. The model will focus on external descriptive metadata, handling basic technical metadata as well. Data discovery/access and interoperability will be discussed and related to the proposed model. Additionally, cloud solutions and practices for long term archiving and data preservation will be considered and briefly examined. On what follows, "metadata" will be used to refer to _external_ metadata unless otherwise specified. \
 
+## Data resource
+
+The project will not be based on an actual dataset. Instead, it will generally address music files. Audio files for music display a great variability, which must be taken into account. In particular, music files can have different:
+
+* file formats;
+* encodings (for a given file format);
+* metadata containers and contents.
+
+In fact, no standard exists (or, if it does, is commonly used) for neither audio file formats (and their encodings) nor metadata models. This intrinsic variability must be handled by the model and will be further discussed. \
+
+
+## Metadata standard for audio files
+
+There is no widely used and standardised metadata model specifically tailored for audio files. Audio (and audio-visual in general) archives have historically been managed with ad-hoc solutions^[encicl arc science]. Audio archives are challenged in the first place by the transition from analog to digital formats and once digital formats are obtained, standardized systems to catalogue, describe and generally handle the resulting files do not exist. Standards in the field are fragmented and achieved by consensus and usually deal with particular areas of interest. However, the following three metadata standards are usually considered when dealing with audio collections.
+
+* Dublin Core is a small set of vocabulary terms that can be used to describe digital resources. Introduced in 1995 and initially regarded as an impractical solution because of its rigorous simplicity (15 metadata terms in the original specification), Dublin Core has since been diffusely adopted, well beyond music audio files. Focusing primarily on descriptive metadata, it can create basic descriptions of digital resources and is intended to be expanded and extended for specific uses. None of its elements are mandatory and all are repeatable. Extensions of Dublin Core can achieve a finer level of detail.
+
+* The EBUCore metadata set is based on and compatible with Dublin Core. Developed by the European Broadcasting Union it specifically handles radio and television broadcasts. In its intentions, it takes into account the latest developments in the Semantic Web and Linked Open Data communities. It expresses both technical and administrative metadata in great detail and it is well suited for a wide range of broadcasting applications (including archiving, exchange and production). The resulting data model is significantly more complex than Dublin Core.
+ 
+* The METS (Metadata Encoding and Transmission Standard) is a metadata standards which is able to encode descriptive, technical and amministrative metadata for digital objects. It handles the hierarchical structure of digital library objects ad provides a means to combine elements of different schema into a single record. METS itself does not prescribe a vocabulary, in order to achieve greater interoperability. It takes a sensibly greater effort to create and maintain. \
+
+It is clear how different metadata standards offer different levels of detail and flexibility. For the purpose of this project, metadata model will be designed from the ground up.
 
 \
 
@@ -63,7 +56,7 @@ toccolor: Black
 
 ## What should the data model be able to represent?
 
-A model for audio data resources should be able to represent songs (and their possible different versions) and their groupings (in albums, compilations or other releases). Moreover, it should model authoring for artists (singers and lyricists) and other professional figures such as music producers. The model should handle technical metadata as well. Additionally, relations between different classes (e.g., a work is part of another work, two artists cooperated for a release) should be handeld as well. \
+A model for audio data resources should be able to represent songs (and their possible different versions) and their groupings (in albums, compilations or other releases). Moreover, it should model authoring for artists (singers and lyricists) and other professional figures such as music producers. The model should handle basic technical metadata as well. Additionally, relations between different classes (e.g., a work is part of another work, two artists cooperated for a release) should be handled as well. \
 
 
 ## A more detailed description of the model entities/classes
@@ -113,7 +106,7 @@ For this particular project, flexibility has been privileged: the model implemen
 
 ## XSD
 
-An implementation of the proposed model can result in XSDs with varying degrees of flexibility. [EBUcore XSD](https://www.ebu.ch/metadata/schemas/EBUCore/ebucore.xsd) provides extreme flexibility and can handle both audio and visual broadcasting resources. Such great flexibility (a necessity, given the wide range of resources EBUcore is able to descrive) is deemed not to provide enough structure for this particular project. At the opposite side of the spectrum a strictly hierarchical XSD, where each document must contain "releases" made of "recordings", might lead to a overly strict model implementation (in this case, a RDB implementation would provably serve the aim of this project better).
+An implementation of the proposed model can result in XSDs with varying degrees of flexibility. [EBUCore XSD](https://www.ebu.ch/metadata/schemas/EBUCore/ebucore.xsd) provides extreme flexibility and can handle both audio and visual broadcasting resources. Such great flexibility (a necessity, given the wide range of resources EBUCore is able to descrive) is deemed not to provide enough structure for this particular project. At the opposite side of the spectrum a strictly hierarchical XSD, where each document must contain "releases" made of "recordings", might lead to a overly strict model implementation (in this case, a RDB implementation would provably serve the aim of this project better).
 
 Drawing from the considerations of the previous paragraph, the proposed XSD should:
 
@@ -162,8 +155,14 @@ The following fragment shows a valid instance of a work. It contains both an `id
 </work>
 ```
 
-A more extensive XML example document has been provided alongside the XSD. \
+A more extensive XML example document has been provided alongside the XSD.
 
+### Possible model expansions
+
+The model could be further expanded implementing the following features:
+
+* Sort names, useful for displaying and ordering results. Usual practices include placing surnames first (e.g., Ólafur Arnalds will have "Arnalds, Ólafur" as a sort name) and placing articles last (e.g., The National will have "National, The" as a sort name);
+* Images, to store album cover or artist portraits. The File and the Format classes can be extended to deal with image formats. Images could have relationships with Releases, for album covers, and Artists, for artist portraits. \ 
 
 
 # Interfaces and services
@@ -183,7 +182,8 @@ On the back end, queries would be carried out using XQuery, a query language bui
 
 Traditional information retrieval techniques could be used to substantially improve the results of a query. First of all, spelling correction techniques could be employed. The _Levenshtein distance_ offers a simple approach to spelling correction: if the query returns no record, and thus the query possibly contains a spelling error, the closest results in terms of number of edit operations are retrieved. A query for "Pink Floid" will probably return no results. However, "Pink Floyd" has a unitary edit distance and will be consequently returned as a result. Alternatives approaches would involve using k-gram distance and the Jaccard coefficient for queries. This simple improvement would certainly favour data discovery. Additionally, a popularity value could be used to rank results: the user would be answered with the most popular (in terms of queries or downloads, for instance) items.
 
- * Filtering service (xml indices suffer from index size and construction costs);
+Indices should be built for better performance. XML indexing is a younger field of research, if compared with RDB indexing, and suffers from some decisive disadvantages. As with any index structure, edits are expensive since they require to rebuild the index. In particular, construction costs affect XML indexes severely. Moreover index size does not scale well with the size of XML files. The trade-off between increased performance and increased disk space should be deeply investigated if the project were to be put into production.
+
 
 ### Data access
 
@@ -191,13 +191,21 @@ Once the data has been located, it should be easily accessible via download. The
 
 ### Data annotation
 
-In all previous sections of the project a strict division between data and metadata has been enforced. The XSD models the metadata structure which has some references to audio files which are separately handled. However, audio files themselves can and should embed metadata. Unfortunately, no standard metadata container for audio files knows widespread use. What follows focuses on commonly used audio file format; they will addressed again in the [interoperability and preservation](#interoperability-and-preservation) section.
+In all previous sections of the project a strict division between data and metadata has been enforced: the XSD models the metadata structure which holds references to audio files that are separately handled. However, audio files themselves can be embed metadata. Unfortunately, no standard metadata container for audio files knows widespread use.
 
-ID3 (and particularly the extended ID3v2) is the _de facto_ standard for Mp3 files, the most common and widely used audio file format. ID3 all the common music metadata tags and can store all the metadata of the proposed model. Additionally, it supports image tags to store album covers and similar content. ID3 was designed specifically for Mp3 files few other formats support it (WAW being one).
+Whether metadata _should_ be embedded into audio files is a separate question. A minimal amount of metadata (the _catastrophic_ metadata) is necessary to uniquely identify the resource in the event of a disastrous disassociation with its corresponding metadata file. Storing a unique identifier o a brief description would be sufficient. Association with an external metadata file is generally necessary, since embedded metadata have a limited coverage and are difficult to maintain and index.
 
-XMP (Extensible Metadata Platform) is an ISO standard commonly used in JPEG images 
+What follows focuses on commonly used audio file format; they will addressed again in the [interoperability and preservation](#interoperability-and-preservation) section.
 
-Vorbis for flac
+* ID3 (and particularly the extended ID3v2) is the _de facto_ standard for Mp3 files, the most common and widely used audio file format. ID3 handles all the common music metadata tags in a structured fashion and can store all the metadata of the proposed model. Additionally, it supports image tags to store album covers and similar content. The `mutagen` Python library can be used to handle audio metadata. It is worth citing MusicBrainz Picard, a free and open-source software application that can automatically identify and tag audio files using the MusicBrainz database. Despite its extensive use, ID3 was designed specifically for Mp3 files few other formats support it (WAW being one, but not without compatibility concerns). 
+
+* XMP (Extensible Metadata Platform) is an ISO standard commonly used in JPEG images. The standard [defines](https://wwwimages2.adobe.com/content/dam/acom/en/devnet/xmp/pdfs/XMP%20SDK%20Release%20cc-2016-08/XMPSpecificationPart3.pdf) a way to store XMP metadata in a wide variety of file formats, including some audio file formats such as Mp3 and WAW.
+
+* BWF `<bext>` chunks are a recognized archival standard for BWF WAW files and can be declared using XML. However, they offer a very limited number of fields that are better suited for _administrative_ metadata rather than descriptive ones.
+
+* Vorbis comments are metadata containers used in the Vorbis and FLAC audio file formats. They consist in unstructured key/value pairs in the format `fieldname=data`, and the same field can be repeated multiple times. This approach is in contrast with the highly structured ID3 approach. \
+
+Since no metadata container is supported by all the most common formats, the choice for a specific container heavily depends on the file format. Whatever the choice, software and programming languages that can handle metadata manipulation are available (e.g., the previously cited `mutagen` library) and could be used to embed/map the content of the proposed model in the audio files.
 
 
 ## Storage and cloud solutions
@@ -207,9 +215,21 @@ Vorbis for flac
 
 # Interoperability and preservation
 
-* Interoperability;
+* Interoperability, open file formats, bwf;
 * **OAIS**: sketch model.
 
 # Software and tools used
+
+# Project notes
+
+
+**TODO:**
+
+* placeTypeType, artistTypeType, address type;
+* check UML cardinality;
+* data models for discovery;
+* more details on the [preservation](#preservation) section; 
+* standard for archiving: WAW 96khz, 24bit or FLAC, with MP3 download;
+* check definition of dc refinement
 
 </div>
