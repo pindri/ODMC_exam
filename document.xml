@@ -13,9 +13,7 @@
       <name>
         <dc:title>William Wilson</dc:title>
       </name>
-      <type>
-        Singer
-      </type>
+      <type>person</type>
       <description>
         <dc:description>Very good singer</dc:description>
         <attributor>William Wilson</attributor>
@@ -64,9 +62,12 @@
       <title>
         <dc:title>Test Recording</dc:title>
       </title>
-      <duration>
-        PT20M
-      </duration>
+      <duration>PT20M </duration>
+      <place>
+        <name>Studio name</name>
+        <type>studio</type>
+        <address>address</address>
+      </place>
       <hasArtist label="William Wilson" description="Singer">
         <relationIdentifier>
           <ISNI idref="ISNI_1234567890123456"></ISNI>

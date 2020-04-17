@@ -225,7 +225,7 @@ Since no metadata container is supported by all the most common formats, the cho
 
 **TODO:**
 
-* placeTypeType, artistTypeType, address type;
+* address type;
 * check UML cardinality;
 * data models for discovery;
 * more details on the [preservation](#preservation) section; 

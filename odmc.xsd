@@ -177,12 +177,22 @@
     </xs:annotation>
     <xs:sequence>
       <xs:element name="name" type="xs:string" minOccurs="0" maxOccurs="unbounded"></xs:element>
-      <xs:element name="type" type="xs:string" minOccurs="0">
+      <xs:element name="type" minOccurs="0">
         <xs:annotation>
           <xs:documentation>
             Describes the place primary function (e.g., recording studio, religious building).
           </xs:documentation>
         </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="studio"/>
+            <xs:enumeration value="venue"/>
+            <xs:enumeration value="arena"/>
+            <xs:enumeration value="religious building"/>
+            <xs:enumeration value="educational institution"/>
+            <xs:enumeration value="other"/>
+          </xs:restriction>
+        </xs:simpleType>
       </xs:element>
       <xs:element name="address" type="xs:string"></xs:element>
       <xs:element name="description" type="odmc:descriptionType" minOccurs="0" maxOccurs="unbounded"></xs:element>
@@ -199,12 +209,22 @@
         </xs:annotation>
       </xs:element>
       <xs:element name="name" type="odmc:titleType" minOccurs="1" maxOccurs="unbounded"></xs:element>
-      <xs:element name="type" type="xs:string" minOccurs="0" maxOccurs="unbounded">
+      <xs:element name="type" minOccurs="0" maxOccurs="unbounded">
         <xs:annotation>
           <xs:documentation>
             States whether the artist is an individual person, a group, etc.
           </xs:documentation>
         </xs:annotation>
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="person"/>
+            <xs:enumeration value="group"/>
+            <xs:enumeration value="orchestra"/>
+            <xs:enumeration value="choir"/>
+            <xs:enumeration value="character"/>
+            <xs:enumeration value="other"/>
+          </xs:restriction>
+        </xs:simpleType>
       </xs:element>
       <xs:element name="description" type="odmc:descriptionType" minOccurs="0" maxOccurs="unbounded"></xs:element>
     </xs:sequence>
