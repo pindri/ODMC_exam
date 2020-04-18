@@ -169,7 +169,7 @@ The model could be further expanded implementing the following features:
 
 A full fledged service that adopts the prototyped XSD is out of the scope of this project. However, some possible services related to the resource discovery and accessibility will now be discussed.
 
-The two main goals an actual implementation of this project should achieve are: music query (i.e., a music search/download service) and database update (i.e., a service devoted to the addition of new documents to the database). Both this services are related to the [data storage](#data-discovery), which will be briefly discussed as well.
+The two main goals an actual implementation of this project should achieve are: music query (i.e., a music search/download service) and database update (i.e., a service devoted to the addition of new documents to the database). Both this services are related to the [data storage](#storage-and-cloud-solutions), which will be briefly discussed as well.
 
 
 ## Data discovery
@@ -178,7 +178,7 @@ The most fundamental service an archive should provide is a search/filter servic
 
 In order to make data accessible in the first place, a web service should be implemented. Users should have network access the archive, and the archive web page should be identified by a URL. The filtering service should offer the typical search fields for music queries: users should be able to query authors, works, recordings and releases. Luckily, these usual query fields correspond exactly to the main classes of the presented model. Thus, searching for a specific artist would parse the `artist` elements only. Queries would most probably be free-text queries on the various classes.
 
-On the back end, queries would be carried out using XQuery, a query language built on XPath (and a W3C Recommendation for XML queries). Since the data model is known, and has a reasonably strict structure, simple queries could be trivially implemented. For instance, XPath queries are supported by the `xml.etree.ElementTree` Python module.
+On the back end, queries on XML files could be carried out using XQuery, a query language built on XPath (and a W3C Recommendation for XML queries). Since the data model is known, and has a reasonably strict structure, simple queries could be trivially implemented. For instance, XPath queries are supported by the `xml.etree.ElementTree` Python module.
 
 Traditional information retrieval techniques could be used to substantially improve the results of a query. First of all, spelling correction techniques could be employed. The _Levenshtein distance_ offers a simple approach to spelling correction: if the query returns no record, and thus the query possibly contains a spelling error, the closest results in terms of number of edit operations are retrieved. A query for "Pink Floid" will probably return no results. However, "Pink Floyd" has a unitary edit distance and will be consequently returned as a result. Alternatives approaches would involve using k-gram distance and the Jaccard coefficient for queries. This simple improvement would certainly favour data discovery. Additionally, a popularity value could be used to rank results: the user would be answered with the most popular (in terms of queries or downloads, for instance) items.
 
@@ -210,15 +210,32 @@ Since no metadata container is supported by all the most common formats, the cho
 
 ## Storage and cloud solutions
 
-* Storage (both XML documents and audio files);
-* Cloud;
+Following the proposed model, an actual music archive would be required to handle both XML documents (the metadata) and audio files (the data): they will be now discussed separately. Cloud (storage) solutions will be addressed as well.
+
+### Storing XML files
+
+XML documents can fall in two (blurry-edged) categories depending on the rigidity of their structure: data-centric, more structured, and document-centric, more irregularly structure. The proposed XSD would probably result in data-centric documents, since some rigidity and integrity constraints are, in fact, enforced. Conceptually, two XML storage approaches exist: the first one requires to build a map for the XML model, mapping it into a database model, the second one maps XML documents into pre-existent database structures that can store any XML. The first approach is typical of XML-enabled databases, the second of XML-native databases.
+
+Usually, data-centric documents can be more efficiently and conveniently [handled](http://elib.mi.sanu.ac.rs/files/journals/kjm/30/kjom3013.pdf) using XML-enabled databases. This conclusion is in direct contrast with the XPath query approach of the [data discovery](#data-discovery) section (XML-enabled databases can be queried using SQL). On the other hand, a XML-native database would keep the XQuery approach but would probably scale worse.
+
+In fact none of the three most used XML-native databases (eXist, Sedna and BaseX) offer the scalability properties XML-emabled NoSQL databases have. In particular, they are limited to share-nothing distribution and not all of them offer redundancy services; this shows how they are still somewhat unripe alternatives. Non of them is, in conclusion, horizontally scalable. BaseX, for instance, is light-weight by [design](https://docs.basex.org/wiki/Statistics) and many share-nothing and separate BaseX instances are necessary when the size of the database increases. These alternatives offer no cloud solutions at all.
+
+On a side note, the proposed XSD would note scale well itself. At its current state, the schema would practically force all metadata to be stored in a single, large XML file. This is a necessary price to pay if some consistency is enforces (i.e., if KYE/KEYREF is used). As previously stated, W3C's Service Modeling Language and Schematron can handle across-document constraints, softening this design issue.
+
+### Storing audio files
+
+* Dimensions of spotify, its database and then google cloud solution
+
 
 # Interoperability and preservation
 
-* Interoperability, open file formats, bwf;
+* Interoperability (look at slides), open file formats, bwf, unique identifiers;
 * **OAIS**: sketch model.
 
 # Software and tools used
+
+New content
+
 
 # Project notes
 
