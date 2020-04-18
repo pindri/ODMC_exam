@@ -218,24 +218,37 @@ XML documents can fall in two (blurry-edged) categories depending on the rigidit
 
 Usually, data-centric documents can be more efficiently and conveniently [handled](http://elib.mi.sanu.ac.rs/files/journals/kjm/30/kjom3013.pdf) using XML-enabled databases. This conclusion is in direct contrast with the XPath query approach of the [data discovery](#data-discovery) section (XML-enabled databases can be queried using SQL). On the other hand, a XML-native database would keep the XQuery approach but would probably scale worse.
 
-In fact none of the three most used XML-native databases (eXist, Sedna and BaseX) offer the scalability properties XML-emabled NoSQL databases have. In particular, they are limited to share-nothing distribution and not all of them offer redundancy services; this shows how they are still somewhat unripe alternatives. Non of them is, in conclusion, horizontally scalable. BaseX, for instance, is light-weight by [design](https://docs.basex.org/wiki/Statistics) and many share-nothing and separate BaseX instances are necessary when the size of the database increases. These alternatives offer no cloud solutions at all.
+In fact none of the three most used XML-native databases (eXist, Sedna and BaseX) offer the scalability properties XML-enabled NoSQL databases have. In particular, they are limited to share-nothing distribution and not all of them offer redundancy services; this shows how they are still somewhat unripe alternatives. Non of them is, in conclusion, horizontally scalable. BaseX, for instance, is light-weight by [design](https://docs.basex.org/wiki/Statistics) and many share-nothing and separate BaseX instances are necessary when the size of the database increases. These alternatives offer no cloud solutions at all.
 
 On a side note, the proposed XSD would note scale well itself. At its current state, the schema would practically force all metadata to be stored in a single, large XML file. This is a necessary price to pay if some consistency is enforces (i.e., if KYE/KEYREF is used). As previously stated, W3C's Service Modeling Language and Schematron can handle across-document constraints, softening this design issue.
 
 ### Storing audio files
 
-* Dimensions of spotify, its database and then google cloud solution
+As the number of stored songs increases, the storage space for the audio files will increase linearly. Different storage solutions can be adopted as required storage space increases.
+
+First of all, audio files should not be stored as part of the metadata database. Notwithstanding the support for BLOB (Binary Large Object) data many SQL databases offer, storing a pointer to the resource is a more flexible and scalable alternative. Including BLOBs would result in larger databases, high memory usage and slow query response. This very approach is adopted in the proposed XSD.
+
+For small archives (up to _few_ terabytes), simply storing audio files in a remote file system would probably be a cost and time effective solution. Concurrent access should be managed, with the most trivial solution being single user access. As the archive size grows, a distributed NoSQL database would become necessary. Both MongoDB and Cassandra offer Database-as-a-Service solutions.
+
+A successful music archive could need to manage many concurrent accesses (both of data and metadata). [Spotify](https://www.quora.com/How-much-storage-does-Spotify-have), a very large music streaming service, offers some insights on how to mange a large number of files with many accesses. Up to 2017, Spotify used Cassandra for most of their services. Cassandra was [chosen](https://labs.spotify.com/2013/02/25/in-praise-of-boring-technology/) over PostgreSQL because it guarantees better replication and resilience to failures, while allowing easy communication across data sites. These characteristics would perfectly fit the requirement of a large audio file storage. More [recently](https://cloud.google.com/blog/products/gcp/spotify-chooses-google-cloud-platform-to-power-data-infrastructure), Spotify completed the transition of its backhand to a Google Cloud Platform.
+
+Cloud solutions would actually be very convenient even for small archives. Amazon S3, for instance, offers cheap storage with versioning capabilities (which would be useful for file updates) and seamless orphan files handling. Redundancy and backups are triggered via command line and the storage size scales effortlessly as the archive gets larger. Concurrent access and access permission can be handled as well.
+
+To summarize, audio file storage would deeply benefit from cloud solutions, particularly as the archive size increases.
+
 
 
 # Interoperability and preservation
 
 * Interoperability (look at slides), open file formats, bwf, unique identifiers;
+* S3 Glacier and Glacier Deep Archive.
 * **OAIS**: sketch model.
 
 # Software and tools used
 
 New content
 
+# References
 
 # Project notes
 
