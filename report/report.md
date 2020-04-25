@@ -16,6 +16,10 @@ linkcolor: Mulberry
 citecolor: Mulberry
 urlcolor: Mulberry
 toccolor: Black
+
+bibliography: biblio.bib
+link-citations: true
+csl: citstyle.csl
 ---
 
 <div style="text-align: justify">
@@ -101,7 +105,7 @@ Relational databases offer a trivial way to enforce constraints between entities
 
 On the other hand, XML databases (document-based databases in general) are meant to be a more flexible means to store data, integrity not being their first concern. For a given XML schema, an XML documents can usually contain partial/incomplete information. This is appealing for the task at hand since not all the metadata for a given release may be available. However, many-to-many and many-to-one relationships are harder to handle.
 
-For this particular project, flexibility has been privileged: the model implementation will consists in a XML schema definition (XSD). It should be noted that a PostgreSQL implementation for a similar base model is provided by [MusicBrainz](https://musicbrainz.org/doc/MusicBrainz_Database/), a collaborative music metadata project. \
+For this particular project, flexibility has been privileged: the model implementation will consists in a XML schema definition (XSD). It should be noted that a PostgreSQL implementation for a similar base model is provided by MusicBrainz [@musicBrainz], a collaborative music metadata project. \
 
 
 ## XSD
@@ -271,13 +275,14 @@ TBD
 
 \
 
-# References
 
 # Project notes
-
 
 **TODO:**
 
 * check UML cardinality and schema in general;
+
+
+# References
 
 </div>
