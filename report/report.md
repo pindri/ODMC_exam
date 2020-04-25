@@ -87,9 +87,9 @@ In the following model square endpoints denote aggregation and arrow endpoints d
 
 ![](ODMC.pdf){width=100%}
 
-The proposed design assumes each recording, work and release to be associated with a credited artist (i.e., their participation to the _credit_ relationship is total). This assumption can be satisfied defining special purpose artists to deal with unknown authors, traditional songs, etc. \
+The proposed design assumes each recording, work and release to be associated with a credited artist (i.e., their participation to the _credit_ relationship is total). This assumption can be satisfied defining special purpose artists to deal with unknown authors, traditional songs, etc.
 
-
+\
 
 # Data Model: implementation
 
@@ -162,8 +162,9 @@ A more extensive XML example document has been provided alongside the XSD.
 The model could be further expanded implementing the following features:
 
 * Sort names, useful for displaying and ordering results. Usual practices include placing surnames first (e.g., Ólafur Arnalds will have "Arnalds, Ólafur" as a sort name) and placing articles last (e.g., The National will have "National, The" as a sort name);
-* Images, to store album cover or artist portraits. The File and the Format classes can be extended to deal with image formats. Images could have relationships with Releases, for album covers, and Artists, for artist portraits. \ 
+* Images, to store album cover or artist portraits. The File and the Format classes can be extended to deal with image formats. Images could have relationships with Releases, for album covers, and Artists, for artist portraits.
 
+\
 
 # Interfaces and services
 
@@ -184,7 +185,6 @@ Traditional information retrieval techniques could be used to substantially impr
 
 Indices should be built for better performance. XML indexing is a younger field of research, if compared with RDB indexing, and suffers from some decisive disadvantages. As with any index structure, edits are expensive since they require to rebuild the index. In particular, construction costs affect XML indexes severely. Moreover index size does not scale well with the size of XML files. The trade-off between increased performance and increased disk space should be deeply investigated if the project were to be put into production.
 
-
 ### Data access
 
 Once the data has been located, it should be easily accessible via download. The user should be able to separately download different versions (i.e., different file formats) of the same resource, if they are available. Ideally, a preview of the resource should be available as well: users should be able to listen to a certain song in their browser without downloading the file itself. It must be pointed out that this is possible only if the file storage allows sequential access to files. As an additional service, a user might want to download all the songs credited to a certain artist: a mechanism exploiting XPath queries to build on-demand compilations should make this service possible.
@@ -195,7 +195,7 @@ In all previous sections of the project a strict division between data and metad
 
 Whether metadata _should_ be embedded into audio files is a separate question. A minimal amount of metadata (the _catastrophic_ metadata) is necessary to uniquely identify the resource in the event of a disastrous disassociation with its corresponding metadata file. Storing a unique identifier o a brief description would be sufficient. Association with an external metadata file is generally necessary, since embedded metadata have a limited coverage and are difficult to maintain and index.
 
-What follows focuses on commonly used audio file format; they will addressed again in the [interoperability and preservation](#interoperability-and-preservation) section.
+What follows focuses on commonly used audio file format; they will addressed again in the [interoperability and preservation](#preservation-and-interoperability) section.
 
 * ID3 (and particularly the extended ID3v2) is the _de facto_ standard for Mp3 files, the most common and widely used audio file format. ID3 handles all the common music metadata tags in a structured fashion and can store all the metadata of the proposed model. Additionally, it supports image tags to store album covers and similar content. The `mutagen` Python library can be used to handle audio metadata. It is worth citing MusicBrainz Picard, a free and open-source software application that can automatically identify and tag audio files using the MusicBrainz database. Despite its extensive use, ID3 was designed specifically for Mp3 files few other formats support it (WAW being one, but not without compatibility concerns). 
 
@@ -205,8 +205,7 @@ What follows focuses on commonly used audio file format; they will addressed aga
 
 * Vorbis comments are metadata containers used in the Vorbis and FLAC audio file formats. They consist in unstructured key/value pairs in the format `fieldname=data`, and the same field can be repeated multiple times. This approach is in contrast with the highly structured ID3 approach. \
 
-Since no metadata container is supported by all the most common formats, the choice for a specific container heavily depends on the file format. Whatever the choice, software and programming languages that can handle metadata manipulation are available (e.g., the previously cited `mutagen` library) and could be used to embed/map the content of the proposed model in the audio files.
-
+Since no metadata container is supported by all the most common formats, the choice for a specific container heavily depends on the file format. Whatever the choice, software and programming languages that can handle metadata manipulation are available (e.g., the previously cited `mutagen` library) and could be used to embed/map the content of the proposed model in the audio files. \
 
 ## Storage and cloud solutions
 
@@ -236,17 +235,41 @@ Cloud solutions would actually be very convenient even for small archives. Amazo
 
 To summarize, audio file storage would deeply benefit from cloud solutions, particularly as the archive size increases.
 
+\
 
+# Preservation and Interoperability
 
-# Interoperability and preservation
+## Data preservation
 
-* Interoperability (look at slides), open file formats, bwf, unique identifiers;
-* S3 Glacier and Glacier Deep Archive.
-* **OAIS**: sketch model.
+Data curation and preservation should be a primary concern for a music archive. The data model itself is devoted to (meta)data curation: the enforced integrity constraints prevent data duplication and limit _orphan_ data (that is, data that is not related to any other item).
+
+With regards to data preservation, a distinction between _ephemeral_ and _stable_ data must be drawn. Unquestionably, catastrophic metadata---already mentioned in the [data annotation](#data-annotation) paragraph---are necessary for the archive integrity and they can be considered ephemeral data. Instead, most of the technical data and some descriptive metadata can be reconstructed from the audio files: to some degree, they could be considered stable data. However, both should be taken into account in order to provide all the archive functionalities.
+
+An actual implementation would probably benefit from the OAIS (Open Archive Information System) model, particularly if the archive is oriented towards long term preservation. The adoption of the OAIS model would provide a complete treatment of the digital resource. One of the most critical aspects of the archive would be copyright treatment: an _open access_ archive would probably achieve great interoperability but would probably be unfeasible due to copyrighted files.
+
+Cloud solutions for long term preservation do exist. Amazon Web Services, for instance, offer long term storage solutions with the S3 Glacier and S3 Glacier Deep archives: for a very small cost (the lowest among Amazon's cloud storage classes) they provide long term retention for large amounts of data. They can be used as a convenient replacement of magnetic tape archives. This could be an appealing solution for periodic backups of the whole archive. \
+
+## Interoperability
+
+The proposed model strives for semantic interoperability. Semantic interoperability, along with the syntactic one, is achieved by the XSD. XML itself is an open format and XSD the W3C recommended schema language: it should therefore provide seamless communication between different systems (i.e., syntactic interoperability). The proposed XSD provides the ability unambiguously equip data with meaning (i.e., semantic interoperability) which is boosted by the Dublin Core support. Dublin Core provides a foundation for cross-domain interoperability too. Additionally, the XSD uses unique, standardised and persistent identifiers which are, incidentally, used for relationships as well.
+
+This report itself is meant to provide ontological information on the proposed model. A fully-fledged would require a more formally grounded naming and definition of the various entities and relationships. \
+
+## Audio file formats
+
+Audio file format selection is one of the most crucial choices concerning both preservation and interoperability since outdated file formats and data decay lead to the inability to retrieve resources (the so called "digital dark age"). Obsolete and proprietary file formats are especially troublesome because approdiate handling of the data might be impossible.
+
+Non proprietary file formats should be used. This include both open and _quasi-open_ file formats. Quasi-open formats do not satisfy all the open format requirements but are royalty-free and usually developed by independent organisations or the community. Moreover, the file formats of choice should be well established, that is, supported by several vendors and platform-independent. Finally, digital preservation requires uncompressed or lossless file formats for archiving.
+
+The National Academy of Recording Arts and Sciences [recommends](https://www.grammy.com/sites/com/files/pages/methodology_final2.pdf) 96kHz/24-bit uncompressed BWF files for audio archiving. BWF is an open format that extents the popular Microsoft WAW format: it was developed by the European Broadcasting Union. Alternatively, FLAC offers lossless compression and is suitable for less rigorous archives: it is an established and open file format with solid metadata support. Popular lossy file formats such as MP3 are poor alternatives and should not be used for audio archives. However, access copies for online streaming and download should be conveniently offered in MP3 format as well.
+
+\
 
 # Software and tools used
 
-New content
+TBD
+
+\
 
 # References
 
@@ -255,11 +278,6 @@ New content
 
 **TODO:**
 
-* address type;
-* check UML cardinality;
-* data models for discovery;
-* more details on the [preservation](#preservation) section; 
-* standard for archiving: WAW 96khz, 24bit or FLAC, with MP3 download;
-* check definition of dc refinement
+* check UML cardinality and schema in general;
 
 </div>
