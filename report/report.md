@@ -90,7 +90,7 @@ Additionally, the following secondary classes are defined:
 
 In the following model^[realized using [Lucidachart](https://www.lucidchart.com/) UML editor.] square endpoints denote aggregation and arrow endpoints denote inheritance.
 
-![](ODMC.pdf){width=100%}
+![](UML.pdf){width=100%}
 
 The proposed design assumes each recording, work and release to be associated with a credited artist (i.e., their participation to the _credit_ relationship is total). This assumption can be satisfied defining special purpose artists to deal with unknown authors, traditional songs, etc.
 
