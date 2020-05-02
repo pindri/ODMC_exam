@@ -270,15 +270,6 @@ The National Academy of Recording Arts and Sciences recommends [@grammy] 96kHz/2
 
 \
 
-
-# Project notes
-
-**TODO:**
-
-* check UML cardinality and schema in general;
-* aggiungere schema navigabile;
-
-
 # References
 
 </div>
