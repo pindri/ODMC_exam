@@ -159,7 +159,7 @@
         </xs:annotation>
       </xs:element>
       <xs:element name="description" type="odmc:descriptionType" minOccurs="0" maxOccurs="unbounded"></xs:element>
-      <xs:element name="audioFile" type="odmc:audioFileType" minOccurs="1" maxOccurs="1">
+      <xs:element name="audioFile" type="odmc:audioFileType" minOccurs="1" maxOccurs="unbounded">
         <xs:annotation>
           <xs:documentation>
             Audio content of the recording.

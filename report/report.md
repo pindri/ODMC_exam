@@ -4,18 +4,16 @@ title: |
   | **Exam Project**
 author:
  - "**Patrick Indri**"
-date: September 1, 2008
+date: May 3, 2020
 
 lang: en-GB
 
 documentclass: article
 ### geometry: "left=4cm,right=4cm,top=4cm,bottom=4cm"
 
-toc: false
-linkcolor: Mulberry
-citecolor: Mulberry
-urlcolor: Mulberry
-toccolor: Black
+linkcolor: RoyalBlue
+citecolor: RoyalBlue
+urlcolor: RoyalBlue
 
 bibliography: biblio.bib
 link-citations: true
@@ -45,7 +43,7 @@ The project will not be based on an actual dataset. Instead, it will generally a
 In fact, no standard exists (or, if it does, is commonly used) for neither audio file formats (and their encodings) nor metadata models. This intrinsic variability must be handled by the model and will be further discussed. \
 
 
-## Metadata standard for audio files
+## Metadata standards for audio files
 
 There is no widely used and standardised metadata model specifically tailored for audio files. Audio (and audio-visual in general) archives have historically been managed with ad-hoc solutions [@duranti2015encyclopedia]. Audio archives are challenged in the first place by the transition from analogue to digital formats; once digital formats are obtained, standardized systems to catalogue, describe and generally handle the resulting files do not exist. Standards in the field are fragmented and achieved by consensus and usually deal with particular areas of interest. However, the following three metadata standards are usually considered when dealing with audio collections.
 
@@ -90,7 +88,7 @@ Additionally, the following secondary classes are defined:
 
 ## UML model
 
-In the following model square endpoints denote aggregation and arrow endpoints denote inheritance.
+In the following model^[realized using [Lucidachart](https://www.lucidchart.com/) UML editor.] square endpoints denote aggregation and arrow endpoints denote inheritance.
 
 ![](ODMC.pdf){width=100%}
 
@@ -104,7 +102,7 @@ The proposed design assumes each recording, work and release to be associated wi
 
 Concerning available implementation choices for the proposed model, two macro-alternatives have been taken into account: relational databases (RDB) and XML databases.
 
-Relational databases offer a trivial way to enforce constraints between entities using primary keys and foreign keys. For instance, this would allow to properly model the constraints between releases and artists (i.e., a release cannot be credited to an artist whose name is not present in the "artist" relation). Additionally, indexing is easily supported and RDBs have a widespread use. Moreover, RDBs handle many-to-many and many-to-one relationships with ease (consider the artist-release and the work-recording relationships). However, relational databases manifest a reduced flexibility due to their strict integrity constraints and, once instantiated, are moderately difficult to expand.
+Relational databases offer a trivial way to enforce constraints between entities using primary keys and foreign keys. For instance, this would allow to properly model the constraints between releases and artists (i.e., a release cannot be credited to an artist whose name is not present in the _artist_ relation). Additionally, indexing is easily supported and RDBs have a widespread use. Moreover, RDBs handle many-to-many and many-to-one relationships with ease (consider the artist-release and the work-recording relationships). However, relational databases manifest a reduced flexibility due to their strict integrity constraints and, once instantiated, are moderately difficult to expand.
 
 On the other hand, XML databases (document-based databases in general) are meant to be a more flexible means to store data, integrity not being their first concern. For a given XML schema, an XML documents can usually contain partial/incomplete information. This is appealing for the task at hand since not all the metadata for a given release may be available. However, many-to-many and many-to-one relationships are harder to handle.
 
@@ -272,18 +270,13 @@ The National Academy of Recording Arts and Sciences recommends [@grammy] 96kHz/2
 
 \
 
-# Software and tools used
-
-TBD
-
-\
-
 
 # Project notes
 
 **TODO:**
 
 * check UML cardinality and schema in general;
+* aggiungere schema navigabile;
 
 
 # References

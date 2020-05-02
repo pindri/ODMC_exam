@@ -13,7 +13,7 @@ import org.xml.sax.SAXException;
 public class validate {
    public static void main(String[] args) {
       if(args.length != 2) {
-         System.out.println("Usage : XSDValidator <file-name.xsd> <file-name.xml>");
+         System.out.println("Usage : validate <file-name.xsd> <file-name.xml>");
       } else {
          boolean isValid = validateXMLSchema(args[0],args[1]);
          if(isValid) {
