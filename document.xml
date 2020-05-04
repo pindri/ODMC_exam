@@ -90,7 +90,7 @@
           <hashFunction>function</hashFunction>
         </hash>
         <bitRate unit="kbps">320</bitRate>
-        <audioFormat formatID="ciaone" formatVersion="ciaone" formatName="format">
+        <audioFormat formatID="ID" formatVersion="1.0" formatName="format">
           <codec>codec</codec>
           <compressedFlag>0</compressedFlag>
           <losslessFlag>1</losslessFlag>
