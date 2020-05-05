@@ -161,16 +161,16 @@
 }
 \makeatother
 
-% Add section titles.
-\AtBeginSection{\frame{\sectionpage}}
-\setbeamertemplate{section page} {
-	\begin{tikzpicture}
-		% Set up the entire slide as the canvas.
-		\useasboundingbox (0,0) rectangle(\slidewidth,\slideheight);
-		\fill[color=ThemeWhite] (-1cm, 2cm) rectangle (\slidewidth, \slideheight+0.1cm);
-		\fill[color=ThemeRed] (-1cm, 0.5\slideheight-1cm) rectangle(\slidewidth, 0.5\slideheight+1cm);
-		\node[text width=\the\paperwidth-1cm,align=center] at (0.4\slidewidth, 0.5\slideheight) {
-			\color{ThemeWhite}\Huge\scshape \insertsection
-		};
-	\end{tikzpicture}
-}
+%% Add section titles.
+%\AtBeginSection{\frame{\sectionpage}}
+%\setbeamertemplate{section page} {
+	%\begin{tikzpicture}
+		%% Set up the entire slide as the canvas.
+		%\useasboundingbox (0,0) rectangle(\slidewidth,\slideheight);
+		%\fill[color=ThemeWhite] (-1cm, 2cm) rectangle (\slidewidth, \slideheight+0.1cm);
+		%\fill[color=ThemeRed] (-1cm, 0.5\slideheight-1cm) rectangle(\slidewidth, 0.5\slideheight+1cm);
+		%\node[text width=\the\paperwidth-1cm,align=center] at (0.4\slidewidth, 0.5\slideheight) {
+			%\color{ThemeWhite}\Huge\scshape \insertsection
+		%};
+	%\end{tikzpicture}
+%}
