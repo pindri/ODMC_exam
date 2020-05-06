@@ -23,6 +23,12 @@
   keywordstyle=\color{ThemeRed},
 }
 
+\hypersetup{
+  colorlinks = true,
+  linkcolor = ThemeGrey,
+  urlcolor = ThemeLightBlue
+}   
+
 
 \title{Open Data Management \& Cloud\\exam project}
 \subtitle{Audio music file archiving}
@@ -75,14 +81,40 @@
 
   \begin{frame}
     \frametitle{Metadata standards for audio files}
+
+    There is no widely used and standardised metadata model for music audio files.
+
+    \vspace{1em}
+
+    \begin{itemize}
+      \itemsep1em
+      \item Dublin Core: simple (15 terms), focus on descriptive metadata;
+      \item EbuCore: detailed DC extension, fine grain technical and administrative metadata for broadcasting;
+      \item METS: handles the structural/hierarchical metadata of a digital library. Open flexibility (no vocabulary).
+    \end{itemize}
   \end{frame}
 
 
 
 \section{Model design and implementation}
 
+
   \begin{frame}
     \frametitle{Model design}
+
+    What should the data model represent?
+
+    \vspace{1em}
+
+    \begin{itemize}
+      \itemsep0.75em
+      \item Songs and their different versions;
+      \item Groups of songs (releases);
+      \item Artists;
+      \item Basic technical metadata;
+      \item Relations between songs, releases and artists.
+    \end{itemize}
+
   \end{frame}
 
 
@@ -98,7 +130,33 @@
 
   \begin{frame}
     \frametitle{XSD}
+
+    Choice of implementation:
+
+    \vspace{0.5em}
+
+    \begin{itemize}
+      \item RDB: easy to enforce constraints (primary/foreign keys), widely used, easy to model relationships, rigid structure;
+      \item \rb{XSD}: flexible, easily handle partial data, harder relationship handling.
+    \end{itemize}
+
+    \vspace{1.5em}
+
+    The proposed XSD implementation should:
+
+    \vspace{0.5em}
+
+    \begin{itemize}
+      \item Refine Dublin Core;
+      \item Balance integrity constraints and partial data;
+      \item Model relationships with detail. 
+    \end{itemize}
+
+    \vspace{1.5em}
+
+    The resulting XSD can be retrieved \href{https://github.com/pindri/ODMC_exam/blob/master/odmc.xsd}{here}.
   \end{frame}
+
 
 
 
