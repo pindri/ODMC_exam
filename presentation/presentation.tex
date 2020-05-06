@@ -68,7 +68,7 @@
       \item UML metadata model;
       \item XSD implementation and XML sample document;
       \item discussion of data discovery/access and interoperability;
-      \item discussion of long term archiving and data preservation.
+      \item discussion of (long term) archiving and data preservation.
     \end{itemize}
 
     \vspace{1em}
@@ -310,18 +310,72 @@
 
   \begin{frame}
     \frametitle{Data preservation}
+
+    A primary concern for an audio archive. The proposed XSD prevent data duplication and limits orphan data.
+
+    \vspace{1em}
+
+    Most technical and descriptive metadata is \rb{stable} and, in principle, it is not essential to preserve it. Catastrophic metadata is \rb{ephemeral} (e.g., the ISRC for a recording) and must be preserved.
+
+    \vspace{1em}
+
+    Audio file hashes can be used to check file integrity.
+
+    \vspace{1em}
+
+    Cloud solutions for \rb{long term preservation}: AWS S3 Glacier and Glacier Deep.
+    
+    \vspace{1em}
+
+    \rb{Crucial point:} an OAIS implementation could not be \textit{open access} for copyrighted files.
+
   \end{frame}
 
 
   
   \begin{frame}
     \frametitle{Interoperability}
+
+    The proposed model strives for semantic interoperability.
+
+    \vspace{1em}
+
+    \begin{itemize}
+      \itemsep0.5em
+      \item Syntactic interoperability: XML is an open format;
+      \item Semantic interoperability: XSD equips data with meaning, Dublin Core support;
+      \item Standardised and persistent identifiers for the principal classes;
+    \end{itemize}
+
+    \vspace{1em}
+
+    A report is associated with the project: it provides ontological information on the model.
   \end{frame}
 
   
 
   \begin{frame}
     \frametitle{Audio file formats}
+    
+    One of the most crucial design choices: obsolete and proprietary file formats make data handling troublesome (\textit{digital dark age}).
+
+    \vspace{1em}
+
+    (Quasi) open file formats should be used:
+
+    \vspace{0.5em}
+
+    \begin{itemize}
+      \itemsep0.5em
+      \item BFW: uncompressed extension of Microsoft WAW, open format;
+      \item FLAC: smaller file size, compressed lossless format, good metadata support;
+      \item MP3: most popular audio file format, very small file size, lossy compression, non a viable alternative for archiving (good for download/preview).
+    \end{itemize}
+
+    \vspace{1em}
+
+    \rb{Crucial point:} the file format should be well established;
+
   \end{frame}
 
   
