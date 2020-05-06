@@ -211,7 +211,8 @@
     
     \begin{itemize}
       \item Include sort names;
-      \item Include pictures for artists and releases.
+      \item Include pictures for artists and releases;
+      \item KEY/KEYREF cross domain.
     \end{itemize}
 
   \end{frame}
@@ -222,18 +223,85 @@
 
   \begin{frame}
     \frametitle{Data discovery: search/filter service}
+
+    The most fundamental service would be a search/filter service.
+
+    \vspace{0.5em}
+
+    \begin{itemize}
+      \item Free text queries on the various categories (artist, release, work, recording);
+      \item Queries can be implemented using XQuery;
+      \item Information retrieval techniques to improve results: edit distance and k-gram distance for spelling correction;
+      \item Popularity rank for the results.
+    \end{itemize}
+
+
+    \vspace{1em}
+
+    Once the resource has been identified: download (lossy and lossless file) and online preview.
+
+    \vspace{1em}
+
+    \rb{Crucial point:} XML indexing, trade-off between memory usage and performance.
+
   \end{frame}
 
 
 
   \begin{frame}
     \frametitle{Data annotation}
+
+    Metadata can be embed in audio files. \rb{Is it advisable?} A minimal amount, the \textit{catastrophic} metadata is necessary. Most metadata should be saved in external files.
+
+    \vspace{1em}
+
+    Viable metadata containers:
+
+    \vspace{0.5em}
+
+    \begin{itemize}
+      \item ID3: designed for Mp3, highly structured;
+      \item XMP: ISO standard for JPEG images, defined for other formats including Mp3 and WAW;
+      \item BWF \texttt{<bext>} chunk: XML administrative metadata for BWF;
+      \item Vorbis comments: unstructured metadata for Vorbis and FLAC.
+    \end{itemize}
+
+    \vspace{1em}
+
+    \rb{Conclusion:} data annotation heavily depends on file format choice.
+
   \end{frame}
 
 
 
   \begin{frame}
     \frametitle{Storage and Cloud Solutions}
+
+    Storing \rb{XML} files:
+
+    \vspace{0.5em}
+
+    \begin{itemize}
+      \item XML-native databases are not scalable;
+      \item XML-enabled databases are well established, scalable and can be queried with SQL;
+    \end{itemize}
+
+    \vspace{0.5em}
+
+    \rb{Crucial point:} the proposed XSD itself is not scalable.
+
+    \vspace{1em}
+
+    \rb{Audio} files can be stored in BLOBs in the database: not flexible. Alternatively:
+
+    \vspace{0.5em}
+
+    \begin{itemize}
+      \item Up to \textit{few} TB: remote filesystem;
+      \item Large archives: distributed DB;
+      \item Cloud solutions: Amazon S3 offers versioning, orphan files handling, redundancy and access control.
+    \end{itemize}
+
   \end{frame}
 
 
