@@ -3,6 +3,7 @@
 \usetheme{Pk}
 
 \newcommand\rb[1]{\textcolor{ThemeRed}{\textbf{#1}}}
+\newcommand\gr[1]{\textcolor{ThemeGrey}{#1}}
 \usepackage{listings}
 \lstset{
   basicstyle=\scriptsize,
@@ -49,7 +50,33 @@
 \section{Introduction}
 
   \begin{frame}
-    \frametitle{Structure of the project}
+    \frametitle{Contents}
+    
+    The presentation is organised as follows:
+    
+    \vspace{1em}
+    
+    \begin{enumerate}
+      \item Introduction
+      \begin{itemize}
+        \item[] \gr{Aim and project description}
+      \end{itemize}
+      \item Model design and implementation
+      \begin{itemize}
+        \item[] \gr{UML, XSD and XML}
+      \end{itemize}
+      \item Interfaces and services
+      \begin{itemize}
+        \item[] \gr{Search filter, data annotation and storage}
+      \end{itemize}
+      \item Preservation and interoperability
+      \begin{itemize}
+        \item[] \gr{Metadata preservation, semantic interoperability and audio file formats}
+      \end{itemize}
+      \item Final considerations
+    \end{enumerate}
+
+
   \end{frame}
 
 
@@ -384,18 +411,21 @@
 
   \begin{frame}
     \frametitle{Final considerations}
+    
+    Audio file data management is difficult because:
+    
+    \vspace{1em}
+    
+    \begin{itemize}
+      \itemsep1em
+      \item Many impact design choices;
+      \item Lack of metadata standard can make interoperability difficult;
+      \item Practical issues: storage and indexing;
+      \item Cloud solutions to deal with large volumes and concurrent access.
+    \end{itemize}
+
   \end{frame}
 
 
-
-\backupbegin
-
-\section{References}
-
-  \begin{frame}
-    \frametitle{References}
-  \end{frame}
-
-\backupend
 
 \end{document}
