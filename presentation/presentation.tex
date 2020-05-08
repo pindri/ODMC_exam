@@ -28,8 +28,9 @@
   colorlinks = true,
   linkcolor = ThemeGrey,
   urlcolor = ThemeLightBlue
-}   
+}
 
+\usepackage{todonotes}
 
 \title{Open Data Management \& Cloud\\exam project}
 \subtitle{Audio music file archiving}
@@ -53,7 +54,7 @@
     \frametitle{Contents}
     
     The presentation is organised as follows:
-    
+
     \vspace{1em}
     
     \begin{enumerate}
@@ -91,17 +92,37 @@
     \vspace{1em}
 
     In particular:
+
+    \vspace{0.5em}
+
     \begin{itemize}
+      \itemsep0.5em
       \item UML metadata model;
       \item XSD implementation and XML sample document;
       \item discussion of data discovery/access and interoperability;
       \item discussion of (long term) archiving and data preservation.
     \end{itemize}
-
-    \vspace{1em}
-
+  \end{frame}
+  
+  
+  
+  \begin{frame}
+    \frametitle{Data resource}
+    
     \rb{Data resource:} not an actual dataset but music files in general.
+        
+    \vspace{1em}
+    
+    Great variability:
 
+    \vspace{0.5em}
+        
+    \begin{itemize}
+      \itemsep0.5em
+      \item File formats;
+      \item Encodings;
+      \item Metadata containers and contents.
+    \end{itemize}
   \end{frame}
 
 
@@ -136,9 +157,9 @@
     \begin{itemize}
       \itemsep0.75em
       \item Songs and their different versions;
-      \item Groups of songs (releases);
+      \item Groups of songs (i.e., commercial releases);
       \item Artists;
-      \item Basic technical metadata;
+      \item Basic technical metadata (file formats);
       \item Relations between songs, releases and artists.
     \end{itemize}
 
@@ -148,6 +169,7 @@
 
   \begin{frame}
     \frametitle{UML}
+    % Value based identity. Generally existence based are preferable. Here, natural are persistent and good for relationships.
     \begin{center}
       \includegraphics[width=0.95\textwidth]{img/UML.pdf}
     \end{center}
@@ -164,7 +186,7 @@
 
     \begin{itemize}
       \item RDB: easy to enforce constraints (primary/foreign keys), widely used, easy to model relationships, rigid structure;
-      \item \rb{XSD}: flexible, easily handle partial data, harder relationship handling.
+      \item \rb{XSD}: flexible, easily handle partial data, more difficult relationship handling.
     \end{itemize}
 
     \vspace{1.5em}
@@ -185,6 +207,32 @@
   \end{frame}
 
 
+  
+  \begin{frame}[fragile]
+    \frametitle{XSD - cont'd}
+    
+    Relations are implemented using the \texttt{KEY/KEYREF} syntax.
+    
+    \vspace{1em}
+    
+    \lstset{basicstyle=\scriptsize\ttfamily}
+\begin{lstlisting}[language=XML]
+<xs:key name="relationId">
+  <xs:selector xpath="./odmc:odmcItems/odmc:work/odmc:ISWC"/>
+  <xs:field xpath="@id"/>
+  </xs:key>
+<xs:keyref name="relationIdref" refer="odmc:relationId">
+  <xs:selector xpath=".//odmc:relationIdentifier/*"/>
+  <xs:field xpath="@idref"/>
+</xs:keyref>
+\end{lstlisting}
+
+    \vspace{1em}
+    
+    The XSD structure can be interactly navigated using a web browser using \href{https://github.com/pindri/ODMC_exam/blob/master/odmc.svg}{this} SVG file.
+    
+  \end{frame}
+
 
 
   \begin{frame}[fragile]
@@ -194,7 +242,7 @@
 
     \vspace{0.5em}
 
-    \lstset{basicstyle=\small}
+    \lstset{basicstyle=\scriptsize\ttfamily}
 \begin{lstlisting}[language=XML]
 <work>
   <ISWC id="ISWC_T-000.000.000-A"></ISWC>
@@ -427,5 +475,7 @@
   \end{frame}
 
 
+  %% TODO %%
+  % Add statistics info, make metadata indexed by google.
 
 \end{document}
