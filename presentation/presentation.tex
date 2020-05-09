@@ -27,7 +27,7 @@
 \hypersetup{
   colorlinks = true,
   linkcolor = ThemeGrey,
-  urlcolor = ThemeLightBlue
+  urlcolor = ThemeBlue
 }
 
 
@@ -202,11 +202,42 @@
 
     The resulting XSD can be retrieved \href{https://github.com/pindri/ODMC_exam/blob/master/odmc.xsd}{here}.
   \end{frame}
+  
+  
+  
+  \begin{frame}[fragile]
+    \frametitle{XSD Relationships}
+    
+    \begin{center}
+      \includegraphics[width=0.7\textwidth]{img/WorkRecording.pdf}
+    \end{center}
+    
+    \lstset{basicstyle=\scriptsize\ttfamily}
+\begin{lstlisting}[language=XML]
+<xs:complexType name="workType">
+  ...
+  <xs:element name="hasPerformance" type="odmc:relationType"
+        minOccurs="1" maxOccurs="unbounded"/>
+  ...
+</xs:complexType>
+\end{lstlisting}
+
+    \lstset{basicstyle=\scriptsize\ttfamily}
+\begin{lstlisting}[language=XML]
+<xs:complexType name="recordingType">
+  ...
+  <xs:element name="isPerformanceOf" type="odmc:relationType"
+        minOccurs="1" maxOccurs="1"/>
+  ...
+</xs:complexType>
+\end{lstlisting}
+
+  \end{frame}
 
 
   
   \begin{frame}[fragile]
-    \frametitle{XSD - cont'd}
+    \frametitle{XSD Relationships - cont'd}
     
     Relationships are implemented using the \texttt{KEY/KEYREF} syntax.
     
@@ -263,13 +294,14 @@
   \begin{frame}
     \frametitle{Difficulties and possible expansions}
     
-    \textcolor{red}{Difficulties:}
+    Difficulties:
     
     \vspace{0.5em}
     
     \begin{itemize}
-      \item flexibility;
-      
+      \itemsep0.5em
+      \item Chosing the right degree of flexibility;
+      \item Handling large XML documents.      
     \end{itemize}
 
     \vspace{1em}
@@ -279,9 +311,10 @@
     \vspace{0.5em}
     
     \begin{itemize}
+      \itemsep0.5em
       \item Include sort names;
       \item Include pictures for artists and releases;
-      \item KEY/KEYREF cross domain.
+      \item Model inter-document constraints.
     \end{itemize}
 
   \end{frame}
@@ -352,7 +385,8 @@
 
     \begin{itemize}
       \item XML-native databases are not scalable;
-      \item XML-enabled databases are well established, scalable and can be queried with SQL;
+          % BaseX is the best, still not scalable.1
+      \item XML-enabled databases are well established, scalable and can be queried with SQL.
     \end{itemize}
 
     \vspace{0.5em}
@@ -393,6 +427,7 @@
     \vspace{1em}
 
     Cloud solutions for \rb{long term preservation}: AWS S3 Glacier and Glacier Deep.
+    % Checksums for integrity.
     
     \vspace{1em}
 
@@ -443,7 +478,7 @@
 
     \vspace{1em}
 
-    \rb{Crucial point:} the file format should be well established;
+    \rb{Crucial point:} the file format should be well established.
 
   \end{frame}
 
