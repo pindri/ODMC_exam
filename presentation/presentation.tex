@@ -30,7 +30,6 @@
   urlcolor = ThemeLightBlue
 }
 
-\usepackage{todonotes}
 
 \title{Open Data Management \& Cloud\\exam project}
 \subtitle{Audio music file archiving}
@@ -76,8 +75,6 @@
       \end{itemize}
       \item Final considerations
     \end{enumerate}
-
-
   \end{frame}
 
 
@@ -160,7 +157,7 @@
       \item Groups of songs (i.e., commercial releases);
       \item Artists;
       \item Basic technical metadata (file formats);
-      \item Relations between songs, releases and artists.
+      \item Relationships between songs, releases and artists.
     \end{itemize}
 
   \end{frame}
@@ -211,7 +208,7 @@
   \begin{frame}[fragile]
     \frametitle{XSD - cont'd}
     
-    Relations are implemented using the \texttt{KEY/KEYREF} syntax.
+    Relationships are implemented using the \texttt{KEY/KEYREF} syntax.
     
     \vspace{1em}
     
@@ -229,7 +226,7 @@
 
     \vspace{1em}
     
-    The XSD structure can be interactly navigated using a web browser using \href{https://github.com/pindri/ODMC_exam/blob/master/odmc.svg}{this} SVG file.
+    The XSD structure can be interactively navigated using a web browser using \href{https://github.com/pindri/ODMC_exam/blob/master/odmc.svg}{this} SVG file.
     
   \end{frame}
 
@@ -259,9 +256,6 @@
 </work>
 \end{lstlisting}
 
-    \vspace{1em}
-
-    The KEY/KEYREF approach was used to model the relationships.
   \end{frame}
 
 
@@ -419,7 +413,7 @@
       \itemsep0.5em
       \item Syntactic interoperability: XML is an open format;
       \item Semantic interoperability: XSD equips data with meaning, Dublin Core support;
-      \item Standardised and persistent identifiers for the principal classes;
+      \item Standardised and persistent identifiers for the main classes;
     \end{itemize}
 
     \vspace{1em}
@@ -444,7 +438,7 @@
       \itemsep0.5em
       \item BFW: uncompressed extension of Microsoft WAW, open format;
       \item FLAC: smaller file size, compressed lossless format, good metadata support;
-      \item MP3: most popular audio file format, very small file size, lossy compression, non a viable alternative for archiving (good for download/preview).
+      \item MP3: most popular audio file format, very small file size, lossy compression, not a viable alternative for archiving (good for download/preview).
     \end{itemize}
 
     \vspace{1em}
@@ -466,7 +460,7 @@
     
     \begin{itemize}
       \itemsep1em
-      \item Many impact design choices;
+      \item Many impactful design choices;
       \item Lack of metadata standard can make interoperability difficult;
       \item Practical issues: storage and indexing;
       \item Cloud solutions to deal with large volumes and concurrent access.
