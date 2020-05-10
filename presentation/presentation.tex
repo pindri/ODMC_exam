@@ -30,6 +30,9 @@
   urlcolor = ThemeBlue
 }
 
+\usepackage{multimedia}
+
+
 
 \title{Open Data Management \& Cloud\\exam project}
 \subtitle{Audio music file archiving}
@@ -166,7 +169,7 @@
 
   \begin{frame}
     \frametitle{UML}
-    % Value based identity. Generally existence based are preferable. Here, natural are persistent and good for relationships.
+    % Value based identity. Generally existence based are preferable. Here, natural keys are persistent and good for relationships.
     \begin{center}
       \includegraphics[width=0.95\textwidth]{img/UML.pdf}
     \end{center}
@@ -290,7 +293,7 @@
   \end{frame}
 
 
-
+  
   \begin{frame}
     \frametitle{Difficulties and possible expansions}
     
@@ -395,7 +398,7 @@
 
     \vspace{1em}
 
-    \rb{Audio} files can be stored in BLOBs in the database: not flexible. Alternatively:
+    \rb{Audio} files can be stored in BLOBs in the database: not flexible. Alternatively, store pointers to the resource:
 
     \vspace{0.5em}
 
@@ -414,7 +417,7 @@
   \begin{frame}
     \frametitle{Data preservation}
 
-    A primary concern for an audio archive. The proposed XSD prevent data duplication and limits orphan data.
+    A primary concern for an audio archive. The proposed XSD prevents data duplication and limits orphan data.
 
     \vspace{1em}
 
@@ -432,6 +435,7 @@
     \vspace{1em}
 
     \rb{Crucial point:} an OAIS implementation could not be \textit{open access} for copyrighted files.
+    % Digital Curation Centre, for example.
 
   \end{frame}
 
@@ -472,7 +476,7 @@
     \begin{itemize}
       \itemsep0.5em
       \item BFW: uncompressed extension of Microsoft WAW, open format;
-      \item FLAC: smaller file size, compressed lossless format, good metadata support;
+      \item FLAC: smaller file size, compressed lossless format, good metadata support, open format;
       \item MP3: most popular audio file format, very small file size, lossy compression, not a viable alternative for archiving (good for download/preview).
     \end{itemize}
 
